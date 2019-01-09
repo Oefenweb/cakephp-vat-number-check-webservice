@@ -40,25 +40,25 @@ class VatNumberCheckHelperTest extends CakeTestCase {
  */
 	public function testInput() {
 		$fieldName = 'Foo.bar';
-		$result = $this->VatNumberCheck->input($fieldName);
+		$actual = $this->VatNumberCheck->input($fieldName);
 
 		// Test name and id properties
-		$this->assertPattern('/name\=\"data\[Foo\]\[bar\]\"/', $result);
-		$this->assertPattern('/id\=\"FooBar\"/', $result);
+		$this->assertPattern('/name\=\"data\[Foo\]\[bar\]\"/', $actual);
+		$this->assertPattern('/id\=\"FooBar\"/', $actual);
 
 		// Test class property -> only + append
 		$options = [];
-		$result = $this->VatNumberCheck->input($fieldName, $options);
-		$this->assertPattern('/class\=\"vat-number-check\"/', $result);
+		$actual = $this->VatNumberCheck->input($fieldName, $options);
+		$this->assertPattern('/class\=\"vat-number-check\"/', $actual);
 
 		$options = ['class' => 'foo-bar'];
-		$result = $this->VatNumberCheck->input($fieldName, $options);
-		$this->assertPattern('/class\=\"foo-bar vat-number-check\"/', $result);
+		$actual = $this->VatNumberCheck->input($fieldName, $options);
+		$this->assertPattern('/class\=\"foo-bar vat-number-check\"/', $actual);
 
 		// Test input type
 		$options = ['type' => 'radio'];
-		$result = $this->VatNumberCheck->input($fieldName, $options);
-		$this->assertPattern('/type\=\"text\"/', $result);
+		$actual = $this->VatNumberCheck->input($fieldName, $options);
+		$this->assertPattern('/type\=\"text\"/', $actual);
 	}
 
 }

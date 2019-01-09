@@ -16,7 +16,7 @@ class VatNumberChecksControllerTest extends ControllerTestCase {
 	public $fixtures = [];
 
 /**
- * testCheck method
+ * Tests `/vat_number_check/vat_number_checks/check.json`.
  *
  * @return void
  */

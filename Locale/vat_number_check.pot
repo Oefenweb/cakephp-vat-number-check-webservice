@@ -18,3 +18,6 @@ msgstr ""
 msgid "Service unavailable"
 msgstr ""
 
+#: /Model/Datasource/SoapSource.php:176
+msgid "SOAP Error: %s"
+msgstr ""
