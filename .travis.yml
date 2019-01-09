@@ -42,8 +42,6 @@ matrix:
       env: DB=mysql CAKE_VERSION=2.7
     - php: 7.1
       env: DB=mysql CAKE_VERSION=2.8
-    - php: 7.1
-      env: DB=mysql CAKE_VERSION=2.9
 
 branches:
   only:
