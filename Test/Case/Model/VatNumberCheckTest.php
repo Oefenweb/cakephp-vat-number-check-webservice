@@ -87,7 +87,7 @@ class VatNumberCheckTest extends CakeTestCase {
 
 		$this->assertTrue($actual);
 
-		$vatNumber = 'BE0207451227';
+		$vatNumber = 'BE0475899519';
 		$actual = $this->VatNumberCheck->check($vatNumber);
 
 		$this->assertTrue($actual);

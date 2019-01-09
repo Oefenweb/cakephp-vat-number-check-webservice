@@ -49,7 +49,7 @@ class VatNumberChecksController extends VatNumberChecksAppController {
  * @return void
  */
 	public function check() {
-		$vatNumber = $this->request->data('vatNumber');
+		$vatNumber = $this->request->data('vatNumber') ?: '';
 		$vatNumber = $this->VatNumberCheck->normalize($vatNumber);
 
 		$jsonData = array_merge(compact('vatNumber'), ['status' => 'failure']);
@@ -58,7 +58,7 @@ class VatNumberChecksController extends VatNumberChecksAppController {
 			if ($vatNumberValid) {
 				$jsonData = array_merge(compact('vatNumber'), ['status' => 'ok']);
 			}
-		} catch (InternalErrorException $e) {
+		} catch (Exception $e) {
 			$this->response->statusCode(503);
 		}
 

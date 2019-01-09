@@ -21,83 +21,84 @@ class VatNumberChecksControllerTest extends ControllerTestCase {
  * @return void
  */
 	public function testCheck() {
+		$url = '/vat_number_check/vat_number_checks/check.json';
+
 		// Post request, correct vat
 
-		$VatNumberChecks = $this->generate('VatNumberCheck.VatNumberChecks');
-		$VatNumberChecks->VatNumberCheck = ClassRegistry::init('VatNumberCheck.VatNumberCheck');
+		$VatNumberChecks = $this->_getMock();
 
 		$data = ['vatNumber' => 'NL820345672B01'];
 
-		$result = $this->testAction(
-			'/vat_number_check/vat_number_checks/check.json',
-			['return' => 'contents', 'data' => $data, 'method' => 'post']
-		);
+		$actual = $this->testAction($url, ['return' => 'contents', 'data' => $data, 'method' => 'post']);
 		$expected = array_merge($data, ['status' => 'ok']);
 
 		// Test response body
-		$this->assertIdentical($expected, json_decode($result, true));
+		$this->assertSame($expected, json_decode($actual, true));
 
-		$result = $VatNumberChecks->response->statusCode();
+		$actual = $VatNumberChecks->response->statusCode();
 		$expected = 200;
 
 		// Test response code
-		$this->assertIdentical($expected, $result);
+		$this->assertSame($expected, $actual);
 
 		// Get request
 
-		$VatNumberChecks = $this->generate('VatNumberCheck.VatNumberChecks');
-		$VatNumberChecks->VatNumberCheck = ClassRegistry::init('VatNumberCheck.VatNumberCheck');
+		$VatNumberChecks = $this->_getMock();
 
 		$data = ['vatNumber' => ''];
 
-		$result = $this->testAction(
-			'/vat_number_check/vat_number_checks/check.json',
-			['return' => 'contents']
-		);
+		$actual = $this->testAction($url, ['return' => 'contents']);
 		$expected = array_merge($data, ['status' => 'failure']);
 
-		$this->assertIdentical($expected, json_decode($result, true));
+		$this->assertSame($expected, json_decode($actual, true));
 
 		// Post request, incorrect vat
 
-		$VatNumberChecks = $this->generate('VatNumberCheck.VatNumberChecks');
-		$VatNumberChecks->VatNumberCheck = ClassRegistry::init('VatNumberCheck.VatNumberCheck');
+		$VatNumberChecks = $this->_getMock();
 
 		$data = ['vatNumber' => 'NL820345672B02'];
 
-		$result = $this->testAction(
-			'/vat_number_check/vat_number_checks/check.json',
-			['return' => 'contents', 'data' => $data, 'method' => 'post']
-		);
+		$actual = $this->testAction($url, ['return' => 'contents', 'data' => $data, 'method' => 'post']);
 		$expected = array_merge($data, ['status' => 'failure']);
 
-		$this->assertIdentical($expected, json_decode($result, true));
+		$this->assertSame($expected, json_decode($actual, true));
 
 		// Post request, correct vat, timeout
 
 		$VatNumberChecks = $this->generate('VatNumberCheck.VatNumberChecks', [
 			'models' => [
-				'VatNumberCheck.VatNumberCheck' => ['getUrlContent']
+				'VatNumberCheck.VatNumberCheck' => ['check']
 			]
 		]);
-		$VatNumberChecks->VatNumberCheck->expects($this->any())->method('getUrlContent')->will($this->returnValue(false));
+		$VatNumberChecks->VatNumberCheck->setDataSource('vatNumberCheckWebservice');
+		$VatNumberChecks->VatNumberCheck->expects($this->any())
+			->method('check')->will($this->throwException(new Exception()));
 
 		$data = ['vatNumber' => 'NL820345672B01'];
 
-		$result = $this->testAction(
-			'/vat_number_check/vat_number_checks/check.json',
-			['return' => 'contents', 'data' => $data, 'method' => 'post']
-		);
+		$actual = $this->testAction($url, ['return' => 'contents', 'data' => $data, 'method' => 'post']);
 		$expected = array_merge($data, ['status' => 'failure']);
 
 		// Test response body
-		$this->assertIdentical($expected, json_decode($result, true));
+		$this->assertSame($expected, json_decode($actual, true));
 
-		$result = $VatNumberChecks->response->statusCode();
+		$actual = $VatNumberChecks->response->statusCode();
 		$expected = 503;
 
 		// Test response code
-		$this->assertIdentical($expected, $result);
+		$this->assertSame($expected, $actual);
 	}
 
+/**
+ * Gets a mocked controller instance.
+ *
+ * @return VatNumberChecksController
+ */
+	protected function _getMock() {
+		$VatNumberChecks = $this->generate('VatNumberCheck.VatNumberChecks');
+		$VatNumberChecks->VatNumberCheck = ClassRegistry::init('VatNumberCheck.VatNumberCheck', true);
+		$VatNumberChecks->VatNumberCheck->setDataSource('vatNumberCheckWebservice');
+
+		return $VatNumberChecks;
+	}
 }
