@@ -1,15 +1,12 @@
 language: php
 
 php:
-  - 5.4
-  - 5.5
-  - 5.6
   - 7.0
   - 7.1
 
 env:
   global:
-    - REPO_NAME=cakephp-vat-number-check
+    - REPO_NAME=cakephp-vat-number-check-webservice
     - PLUGIN_NAME=VatNumberCheck
     - REQUIRE=""
     - DB=mysql CAKE_VERSION=2
@@ -45,6 +42,8 @@ matrix:
       env: DB=mysql CAKE_VERSION=2.7
     - php: 7.1
       env: DB=mysql CAKE_VERSION=2.8
+    - php: 7.1
+      env: DB=mysql CAKE_VERSION=2.9
 
 branches:
   only:
@@ -62,6 +61,3 @@ after_success:
 
 notifications:
   email: false
-  hipchat:
-    rooms:
-      secure: B46Xvke4nkoN+ivLs0Ubn64rAKOQplqDwLoE9KZDJ6O0XxiAZIZoNXcrGovP+qAB8LHRbGZvOUG4u+YZt9I41bgBAuCM2wZTFJe85IzLjROLxlSXwKDH4tey31omYTSYFKm7Tg9Gi2a6hyGN/YDytiUlmJqUvElcN0EUfkXzxS4=
