@@ -49,5 +49,5 @@ $vatNumberValid = $this->VatNumberCheck->check($vatNumber);
 Generates a VAT number check form field:
 
 ```php
-echo $this->VatNumberCheck->input('vat_number', array('label' => __('VAT number')));
+echo $this->VatNumberCheck->input('vat_number', ['label' => __('VAT number')]);
 ```
