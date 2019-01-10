@@ -80,7 +80,7 @@ class VatNumberCheckTest extends CakeTestCase {
  */
 	public function testCheck(string $vatNumber, bool $expected) {
 		$actual = $this->VatNumberCheck->check($vatNumber);
-		$this->assertSame($expected, $actual, $vatNumber);
+		$this->assertSame($expected, $actual);
 	}
 
 /**
