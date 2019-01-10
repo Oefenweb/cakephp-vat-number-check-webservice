@@ -15,8 +15,17 @@ Clone/Copy the files in this directory into `app/Plugin/VatNumberCheck`
 
 Ensure the plugin is loaded in `app/Config/bootstrap.php` by calling:
 
-```
+```php
 CakePlugin::load('VatNumberCheck', ['routes' => true]);
+```
+
+Ensure to configure the following lines in `app/Config/database.php`:
+
+```php
+public $vatNumberCheckWebservice = [
+	'datasource' => 'VatNumberCheck.SoapSource',
+	'wsdl' => 'http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl'
+];
 ```
 
 ## Usage
@@ -25,13 +34,13 @@ CakePlugin::load('VatNumberCheck', ['routes' => true]);
 
 Normalizes a VAT number:
 
-```
+```php
 $vatNumber = $this->VatNumberCheck->normalize($vatNumber);
 ```
 
 Checks a given VAT number:
 
-```
+```php
 $vatNumberValid = $this->VatNumberCheck->check($vatNumber);
 ```
 
@@ -39,6 +48,6 @@ $vatNumberValid = $this->VatNumberCheck->check($vatNumber);
 
 Generates a VAT number check form field:
 
-```
+```php
 echo $this->VatNumberCheck->input('vat_number', array('label' => __('VAT number')));
 ```
