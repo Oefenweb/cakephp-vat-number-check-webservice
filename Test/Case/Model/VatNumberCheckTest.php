@@ -41,69 +41,64 @@ class VatNumberCheckTest extends CakeTestCase {
 /**
  * Tests `normalize`.
  *
+ * @param string $vatNumber
+ * @param string $expected
+ * @return void
+ * @dataProvider normalizeProvider
  */
-	public function testNormalize() {
-		// Correct
-
-		$vatNumber = 'NL820345672B01';
+	public function testNormalize(string $vatNumber, string $expected) {
 		$actual = $this->VatNumberCheck->normalize($vatNumber);
-		$expected = 'NL820345672B01';
-
 		$this->assertSame($expected, $actual);
+	}
 
-		// To upper case
+/**
+ * Data provider for `normalize`.
+ *
+ * @return array
+ */
+	public function normalizeProvider() : array {
+		return [
+			// $vatNumber, $expected
 
-		$vatNumber = 'NL820345672b01';
-		$actual = $this->VatNumberCheck->normalize($vatNumber);
-		$expected = 'NL820345672B01';
-
-		$this->assertIdentical($expected, $actual);
-
-		// Removal of non-alphanumeric
-
-		$vatNumber = 'NL820345672 B01';
-		$actual = $this->VatNumberCheck->normalize($vatNumber);
-		$expected = 'NL820345672B01';
-
-		$this->assertIdentical($expected, $actual);
-
-		$vatNumber = 'NL820345672!B01';
-		$actual = $this->VatNumberCheck->normalize($vatNumber);
-		$expected = 'NL820345672B01';
-
-		$this->assertIdentical($expected, $actual);
+			// Correct
+			['NL820345672B01', 'NL820345672B01'],
+			// To upper case
+			['NL820345672b01', 'NL820345672B01'],
+			// Removal of non-alphanumeric
+			['NL820345672 B01', 'NL820345672B01'],
+			['NL820345672!B01',  'NL820345672B01'],
+		];
 	}
 
 /**
  * Tests `check`.
  *
+ * @param string $vatNumber
+ * @param string $expected
  * @return void
+ * @dataProvider checkProvider
  */
-	public function testCheck() {
-		// Correct
-
-		$vatNumber = 'NL820345672B01';
+	public function testCheck(string $vatNumber, bool $expected) {
 		$actual = $this->VatNumberCheck->check($vatNumber);
+		$this->assertSame($expected, $actual, $vatNumber);
+	}
 
-		$this->assertTrue($actual);
+/**
+ * Data provider for `check`.
+ *
+ * @return array
+ */
+	public function checkProvider() : array {
+		return [
+			// $vatNumber, $expected
 
-		$vatNumber = 'BE0475899519';
-		$actual = $this->VatNumberCheck->check($vatNumber);
-
-		$this->assertTrue($actual);
-
-		// Incorrect vat
-
-		$vatNumber = 'NL820345672B02';
-		$actual = $this->VatNumberCheck->check($vatNumber);
-
-		$this->assertFalse($actual);
-
-		// Empty vat
-
-		$vatNumber = '';
-		$actual = $this->VatNumberCheck->check($vatNumber);
-
-		$this->assertFalse($actual);
+			// Correct
+			['NL820345672B01', true],
+			['BE0475899519', true],
+			// Incorrect vat
+			['NL820345672B02', false],
+			// Empty vat
+			['', false],
+		];
 	}
 }
