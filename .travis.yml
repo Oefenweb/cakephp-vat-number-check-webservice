@@ -63,12 +63,71 @@ before_script:
     cat <<'  EOF' > ../cakephp/app/Config/database.php
     <?php
     class DATABASE_CONFIG {
-      public $default = [];
-      public $test = [];
+      protected $_identities = [
+        'mysql' => [
+          'datasource' => 'Database/Mysql',
+          'host' => '0.0.0.0',
+          'login' => 'travis'
+        ],
+        'pgsql' => [
+          'datasource' => 'Database/Postgres',
+          'host' => '127.0.0.1',
+          'login' => 'postgres',
+          'database' => 'cakephp_test',
+          'schema' => [
+            'default' => 'public',
+            'test' => 'public',
+          ]
+        ],
+        'sqlite' => [
+          'datasource' => 'Database/Sqlite',
+          'database' => [
+            'default' => ':memory:',
+            'test' => ':memory:',
+          ]
+        ]
+      ];
+
+      public $default = [
+        'persistent' => false,
+        'host' => '',
+        'login' => '',
+        'password' => '',
+        'database' => 'cakephp_test',
+        'prefix' => ''
+      ];
+
+      public $test = [
+        'persistent' => false,
+        'host' => '',
+        'login' => '',
+        'password' => '',
+        'database' => 'cakephp_test',
+        'prefix' => ''
+      ];
+
       public $vatNumberCheckWebservice = [
         'datasource' => 'VatNumberCheck.SoapSource',
         'wsdl' => 'http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl',
       ];
+
+      public function __construct() {
+        $db = 'mysql';
+        if (!empty($_SERVER['DB'])) {
+          $db = $_SERVER['DB'];
+        }
+
+        foreach (['default', 'test'] as $source) {
+          $config = array_merge($this->{$source}, $this->_identities[$db]);
+          if (is_array($config['database'])) {
+            $config['database'] = $config['database'][$source];
+          }
+          if (!empty($config['schema']) && is_array($config['schema'])) {
+            $config['schema'] = $config['schema'][$source];
+          }
+          $this->{$source} = $config;
+        }
+      }
     }
     EOF
   - cat ../cakephp/app/Config/database.php
