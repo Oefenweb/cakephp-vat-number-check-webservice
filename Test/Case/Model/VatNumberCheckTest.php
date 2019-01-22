@@ -66,7 +66,7 @@ class VatNumberCheckTest extends CakeTestCase {
 			['NL820345672b01', 'NL820345672B01'],
 			// Removal of non-alphanumeric
 			['NL820345672 B01', 'NL820345672B01'],
-			['NL820345672!B01',  'NL820345672B01'],
+			['NL820345672!B01', 'NL820345672B01'],
 		];
 	}
 
