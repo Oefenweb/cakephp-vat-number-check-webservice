@@ -1,5 +1,5 @@
 <?php
-App::uses('SoapSource', 'UniLoginWebservice.Model/Datasource');
+App::uses('SoapSource', 'VatNumberCheck.Model/Datasource');
 
 /**
  * Test Soap Source class.
