@@ -15,9 +15,6 @@ env:
     - secure: "keMhRIfM1NuAhWMD70dwCk1juxZF7W8TwQUSMwjTD1aaOK4XRqhd/F5Ix6TGY1n8FRyLkQa0J906ACHm4UoZqkuoreM+CTx1TD7GVL+BkWFi4rwWW8fDC9MtNx4/2kYEtVAGqu5bbxT4rQ7Iq3o4qwLfKRGI8VJNBa7/BnPHZ9QzQ8wibJf3zb6qsDIL6fKfFtK2qxLzb3fqahs5KXOp76+1Nr91eqr0UznjWNFt8pGLL0+HLiaWUCmvurSigRQUsinM7m6K+1xQJpdsSL4HTHt9luWJYVZsgkqeZFueHMMXHt9AOBGzTsCWJJgZMOu/5w4IRx28Q6CSs+cwR2F3xC7pXAyeMkZcqgEICnm6tF5xu7hcyEtGcFbqhEojDroSrJYtCmYzutF5rXCqZ+niS0iNL9DB044+rrG5/unddxdvXgCVv4zkKfEIavtkBuT1jfSx3ITEPhmsoNpr7zk013LBanAUhdg9hCcxGARjWDKFQsM83d5rzFo/vxPAlZXRu21NNX0XMeQ8dgX0VE/kRPUNEMDMUhvpcKMbKcrnbV9VtCKktZLwa7bEtMpCW1Cdo7ZKyaFSjpTdQcLU4M1sMGthURB7gf3bs1o+EU3qYaZGdOIcMNxNTUlt7HODMVXXhzjCm3HSPffs7nhoM5NAfP7GojkYN8n7V92EcEpR1hU="
 
   matrix:
-    - CAKE_VERSION=2.6
-    - CAKE_VERSION=2.7
-    - CAKE_VERSION=2.8
     - CAKE_VERSION=2.9
     - CAKE_VERSION=2.10 PHPUNIT_VERSION=^5.7
 
@@ -33,24 +30,6 @@ matrix:
       env:
         - FOC_VALIDATE=1
   exclude:
-    - php: 7.0
-      env: CAKE_VERSION=2.6
-    - php: 7.0
-      env: CAKE_VERSION=2.7
-    - php: 7.0
-      env: CAKE_VERSION=2.8
-    - php: 7.1
-      env: CAKE_VERSION=2.6
-    - php: 7.1
-      env: CAKE_VERSION=2.7
-    - php: 7.1
-      env: CAKE_VERSION=2.8
-    - php: 7.2
-      env: CAKE_VERSION=2.6
-    - php: 7.2
-      env: CAKE_VERSION=2.7
-    - php: 7.2
-      env: CAKE_VERSION=2.8
     - php: 7.2
       env: CAKE_VERSION=2.9
 
@@ -61,6 +40,7 @@ branches:
 before_script:
   - git clone -b master https://github.com/Oefenweb/travis --depth 1 ../travis
   - travis_wait ../travis/before_script.sh
+
   - mkdir -p ../cakephp/app/Config
   - |
     cat <<'  EOF' > ../cakephp/app/Config/database.php
