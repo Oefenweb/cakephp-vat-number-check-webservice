@@ -25,7 +25,7 @@ matrix:
   include:
     - php: 7.1
       env:
-        - CODECOVERAGE=1
+        - CODECOVERAGE=1 PHPUNIT_VERSION=^5.7
     - php: 7.1
       env:
         - PHPCS=1
