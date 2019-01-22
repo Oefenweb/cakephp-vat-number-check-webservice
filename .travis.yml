@@ -60,7 +60,7 @@ before_script:
   - git clone -b master https://github.com/Oefenweb/travis --depth 1 ../travis
   - travis_wait ../travis/before_script.sh
   - |
-    cat <<'EOF' > ../cakephp/app/Config/database.php
+    cat <<'  EOF' > ../cakephp/app/Config/database.php
     <?php
     class DATABASE_CONFIG {
       public $default = [];
