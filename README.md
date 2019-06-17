@@ -18,7 +18,7 @@ Clone/Copy the files in this directory into `app/Plugin/VatNumberCheck`
 
 ## Configuration
 
-Ensure the plugin is loaded in `app/Config/bootstrap.php` by calling:
+Ensure the plugin is loaded in `app/config/app.php` by calling:
 
 ```php
 CakePlugin::load('VatNumberCheck', ['routes' => true]);
