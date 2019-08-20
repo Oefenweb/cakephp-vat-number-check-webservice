@@ -6,8 +6,11 @@
     </rule>
     <rule ref="rulesets/cleancode.xml/StaticAccess">
         <properties>
-            <property name="exceptions"
-                      value="\Cake\Core\Configure" />
+            <property name="exceptions">
+                <value>
+                    \Cake\Core\Configure
+                </value>
+            </property>
         </properties>
     </rule>
     <rule ref="rulesets/codesize.xml/CyclomaticComplexity" />

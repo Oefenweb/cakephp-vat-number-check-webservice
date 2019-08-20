@@ -176,13 +176,6 @@ return [
         'trace' => true,
     ],
 
-	'Datasources' => [
-		'vatNumberCheckWebservice' => [
-			'source' => 'VatNumberCheck.Soap',
-			'wsdl' => 'http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl'
-		]
-	],
-
     /**
      * Configures logging options
      */

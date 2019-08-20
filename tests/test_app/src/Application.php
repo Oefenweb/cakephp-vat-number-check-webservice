@@ -17,4 +17,8 @@ class Application extends BaseApplication
 
         return $middlewareQueue;
     }
+
+    public function bootstrap() {
+        $this->addPlugin(\VatNumberCheck\Plugin::class, ['routes' => true, 'bootstrap' => true]);
+    }
 }

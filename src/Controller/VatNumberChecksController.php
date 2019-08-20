@@ -3,12 +3,12 @@ namespace VatNumberCheck\Controller;
 
 use Cake\Event\Event;
 use Cake\Network\Exception\InternalErrorException;
-use VatNumberCheck\Utility\Model\VatNumberCheck;
+use VatNumberCheck\Utility\VatNumberCheck;
 /**
  * VatNumberChecks Controller.
  *
  * @property \Cake\Controller\Component\RequestHandlerComponent $RequestHandler
- * @property \VatNumberCheck\Utility\Model\VatNumberCheck $VatNumberCheck
+ * @property \VatNumberCheck\Utility\VatNumberCheck $VatNumberCheck
  */
 class VatNumberChecksController extends AppController
 {

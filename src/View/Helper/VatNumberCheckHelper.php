@@ -68,15 +68,15 @@ class VatNumberCheckHelper extends Helper
  */
     protected function _addJs()
     {
-        // $checkUrl = $this->Url->build([
-        //     'plugin' => 'VatNumberCheck', 'controller' => 'VatNumberChecks', 'action' => 'check', '_ext' => 'json'
-		// ]);
-		$checkUrl = '...';
-        // $checkImages = [
-        //     'ok' => $this->Url->build('/vat_number_check/img/ok.png'),
-        //     'failure' => $this->Url->build('/vat_number_check/img/failure.png'),
-        //     'serviceUnavailable' => $this->Url->build('/vat_number_check/img/service-unavailable.png'),
-		// ];
+        $checkUrl = $this->Url->build(
+            // '/vat_number_check/vat_number_checks/check.json'
+            ['plugin' => 'VatNumberCheck', 'controller' => 'VatNumberChecks', 'action' => 'check', 'ext' => 'json']
+		);
+        $checkImages = [
+            'ok' => $this->Url->build('/vat_number_check/img/ok.png'),
+            'failure' => $this->Url->build('/vat_number_check/img/failure.png'),
+            'serviceUnavailable' => $this->Url->build('/vat_number_check/img/service-unavailable.png'),
+		];
 		$checkImages = [];
         $script = "
             /* jshint jquery:true */

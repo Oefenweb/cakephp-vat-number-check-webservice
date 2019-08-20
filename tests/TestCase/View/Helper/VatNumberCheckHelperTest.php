@@ -44,7 +44,6 @@ use VatNumberCheck\View\Helper\VatNumberCheckHelper;
 	public function testInput() {
 		$fieldName = 'Foo.bar';
 		$actual = $this->VatNumberCheck->input($fieldName);
-		var_dump($actual);
 
 		// Test name and id properties
 		$this->assertContains('name="Foo[bar]"', $actual);
