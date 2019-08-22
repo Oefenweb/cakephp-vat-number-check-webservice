@@ -28,6 +28,7 @@ class Application extends BaseApplication
     public function middleware($middleware)
     {
         $middleware->add(new RoutingMiddleware($this));
+
         return $middleware;
     }
 }

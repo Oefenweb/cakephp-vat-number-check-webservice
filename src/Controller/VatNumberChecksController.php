@@ -41,7 +41,7 @@ class VatNumberChecksController extends AppController
      */
     public function beforeFilter(Event $event)
     {
-		parent::beforeFilter($event);
+        parent::beforeFilter($event);
         if (in_array($this->request->getParam('action'), ['check'], true)) {
             // Disable Security, Csrf component checks
             if ($this->components()->has('Security')) {
@@ -57,25 +57,26 @@ class VatNumberChecksController extends AppController
         }
     }
 
-/**
-* Checks a given vat number (from POST data).
-*
-* @return void
-*/
-	public function check() {
-		$vatNumber = $this->request->getData('vatNumber') ?: '';
+    /**
+     * Checks a given vat number (from POST data).
+     *
+     * @return void
+     */
+    public function check()
+    {
+        $vatNumber = $this->request->getData('vatNumber') ?: '';
         $vatNumber = $this->VatNumberCheck->normalize($vatNumber);
 
         $jsonData = array_merge(compact('vatNumber'), ['status' => 'failure']);
-		try {
-			$vatNumberValid = $this->VatNumberCheck->check($vatNumber);
-			if ($vatNumberValid) {
-				$jsonData = array_merge(compact('vatNumber'), ['status' => 'ok']);
-			}
-		} catch (Exception $e) {
-			$this->response->statusCode(503);
-		}
-		$this->set(compact('jsonData'));
-		$this->set('_serialize', 'jsonData');
-	}
+        try {
+            $vatNumberValid = $this->VatNumberCheck->check($vatNumber);
+            if ($vatNumberValid) {
+                $jsonData = array_merge(compact('vatNumber'), ['status' => 'ok']);
+            }
+        } catch (Exception $e) {
+            $this->response->statusCode(503);
+        }
+        $this->set(compact('jsonData'));
+        $this->set('_serialize', 'jsonData');
+    }
 }

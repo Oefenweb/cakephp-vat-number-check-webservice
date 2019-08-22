@@ -1,9 +1,11 @@
 <?php
 namespace VatNumberCheck\Test\TestCase\Utility\Model;
+
 use Cake\Http\Exception\InternalErrorException;
 use Cake\TestSuite\TestCase;
 use InvalidArgumentException;
 use VatNumberCheck\Utility\Model\VatNumberCheck;
+
 /**
  * VatNumberCheck Test Case.
  *
@@ -12,47 +14,51 @@ use VatNumberCheck\Utility\Model\VatNumberCheck;
 class VatNumberCheckTest extends TestCase
 {
 
-/**
- * setUp method
- *
- * @return void
- */
-    public function setUp() {
+    /**
+     * setUp method
+     *
+     * @return void
+     */
+    public function setUp()
+    {
         parent::setUp();
 
         $this->VatNumberCheck = new VatNumberCheck();
     }
 
-/**
- * tearDown method
- *
- * @return void
- */
-    public function tearDown() {
+    /**
+     * tearDown method
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
         unset($this->VatNumberCheck);
 
         parent::tearDown();
     }
 
-/**
- * Tests `normalize`.
- *
- * @param string $vatNumber
- * @param string $expected
- * @return void
- * @dataProvider normalizeProvider
- */
-    public function testNormalize(string $vatNumber, string $expected) {
+    /**
+     * Tests `normalize`.
+     *
+     * @param string $vatNumber
+     * @param string $expected
+     * @return void
+     * @dataProvider normalizeProvider
+     */
+    public function testNormalize(string $vatNumber, string $expected)
+    {
         $actual = $this->VatNumberCheck->normalize($vatNumber);
         $this->assertSame($expected, $actual);
     }
 
-/**
- * Data provider for `normalize`.
- *
- * @return array
- */
-    public function normalizeProvider() : array {
+    /**
+     * Data provider for `normalize`.
+     *
+     * @return array
+     */
+    public function normalizeProvider() : array
+    {
         return [
             // $vatNumber, $expected
 
@@ -66,25 +72,27 @@ class VatNumberCheckTest extends TestCase
         ];
     }
 
-/**
- * Tests `check`.
- *
- * @param string $vatNumber
- * @param string $expected
- * @return void
- * @dataProvider checkProvider
- */
-    public function testCheck(string $vatNumber, bool $expected) {
-		$actual = $this->VatNumberCheck->check($vatNumber);
+    /**
+     * Tests `check`.
+     *
+     * @param string $vatNumber
+     * @param string $expected
+     * @return void
+     * @dataProvider checkProvider
+     */
+    public function testCheck(string $vatNumber, bool $expected)
+    {
+        $actual = $this->VatNumberCheck->check($vatNumber);
         $this->assertSame($expected, $actual);
     }
 
-/**
- * Data provider for `check`.
- *
- * @return array
- */
-    public function checkProvider() : array {
+    /**
+     * Data provider for `check`.
+     *
+     * @return array
+     */
+    public function checkProvider() : array
+    {
         return [
             // $vatNumber, $expected
             // Correct
@@ -95,11 +103,12 @@ class VatNumberCheckTest extends TestCase
         ];
     }
 
-/**
- * Tests `check` with invalid data.
- *
- */
-    public function testCheckInvalid() {
+    /**
+     * Tests `check` with invalid data.
+     *
+     */
+    public function testCheckInvalid()
+    {
         $this->expectException(InternalErrorException::class);
         $this->VatNumberCheck->check('');
     }

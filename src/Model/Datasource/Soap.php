@@ -126,9 +126,9 @@ class Soap
         }
 
         try {
-			if (!empty($data)) {
-            	$data = [$data];
-			}
+            if (!empty($data)) {
+                $data = [$data];
+            }
 
             foreach ($headers as $header) {
                 $this->client

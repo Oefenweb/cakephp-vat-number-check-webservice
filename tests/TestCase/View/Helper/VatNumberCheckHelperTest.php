@@ -10,58 +10,60 @@ use VatNumberCheck\View\Helper\VatNumberCheckHelper;
  *
  * @property \VatNumberCheck\Test\TestCase\View\Helper $VatNumberCheck
  */
- class VatNumberCheckHelperTest extends TestCase
+class VatNumberCheckHelperTest extends TestCase
 {
 
-/**
- * setUp method
- *
- * @return void
- */
-	public function setUp() {
-		parent::setUp();
+    /**
+     * setUp method
+     *
+     * @return void
+     */
+    public function setUp()
+    {
+        parent::setUp();
 
-		$View = new View();
-		$this->VatNumberCheck = new VatNumberCheckHelper($View);
-	}
+        $View = new View();
+        $this->VatNumberCheck = new VatNumberCheckHelper($View);
+    }
 
-/**
- * tearDown method
- *
- * @return void
- */
-	public function tearDown() {
-		unset($this->VatNumberCheck);
+    /**
+     * tearDown method
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        unset($this->VatNumberCheck);
 
-		parent::tearDown();
-	}
+        parent::tearDown();
+    }
 
-/**
- * testInput method
- *
- * @return void
- */
-	public function testInput() {
-		$fieldName = 'Foo.bar';
-		$actual = $this->VatNumberCheck->input($fieldName);
+    /**
+     * testInput method
+     *
+     * @return void
+     */
+    public function testInput()
+    {
+        $fieldName = 'Foo.bar';
+        $actual = $this->VatNumberCheck->input($fieldName);
 
-		// Test name and id properties
-		$this->assertContains('name="Foo[bar]"', $actual);
-		$this->assertContains('id="foo-bar"', $actual);
+        // Test name and id properties
+        $this->assertContains('name="Foo[bar]"', $actual);
+        $this->assertContains('id="foo-bar"', $actual);
 
-		// Test class property -> only + append
-		$options = [];
-		$actual = $this->VatNumberCheck->input($fieldName, $options);
-		$this->assertContains('class="vat-number-check"', $actual);
+        // Test class property -> only + append
+        $options = [];
+        $actual = $this->VatNumberCheck->input($fieldName, $options);
+        $this->assertContains('class="vat-number-check"', $actual);
 
-		$options = ['class' => 'foo-bar'];
-		$actual = $this->VatNumberCheck->input($fieldName, $options);
-		$this->assertContains('class="foo-bar vat-number-check"', $actual);
+        $options = ['class' => 'foo-bar'];
+        $actual = $this->VatNumberCheck->input($fieldName, $options);
+        $this->assertContains('class="foo-bar vat-number-check"', $actual);
 
-		// Test input type
-		$options = ['type' => 'radio'];
-		$actual = $this->VatNumberCheck->input($fieldName, $options);
-		$this->assertContains('type="text"', $actual);
-	}
-
+        // Test input type
+        $options = ['type' => 'radio'];
+        $actual = $this->VatNumberCheck->input($fieldName, $options);
+        $this->assertContains('type="text"', $actual);
+    }
 }
