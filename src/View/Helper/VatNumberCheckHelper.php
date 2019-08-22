@@ -69,9 +69,11 @@ class VatNumberCheckHelper extends Helper
     protected function _addJs()
     {
         $checkUrl = $this->Url->build(
-            // '/vat_number_check/vat_number_checks/check.json'
-            ['plugin' => 'VatNumberCheck', 'controller' => 'VatNumberChecks', 'action' => 'check', 'ext' => 'json']
-		);
+            // TODO: enable plugin name in route building
+            ['controller' => 'VatNumberChecks', 'action' => 'check', '_ext' => 'json']
+            // ['plugin' => 'VatNumberCheck', 'controller' => 'VatNumberChecks', 'action' => 'check', '_ext' => 'json']
+        );
+        $checkUrl = 'vat_number_check' . $checkUrl;
         $checkImages = [
             'ok' => $this->Url->build('/vat_number_check/img/ok.png'),
             'failure' => $this->Url->build('/vat_number_check/img/failure.png'),
@@ -84,8 +86,8 @@ class VatNumberCheckHelper extends Helper
             (function($) {
                 $(function () {
                     var options = {
-                        elementSelector: '" . sprintf('input.%s', $this->inputClass) . "',
-                        checkUrl: '" . $checkUrl . "',
+                        elementSelector: '" . json_encode(sprintf('input.%s', $this->inputClass)) . "',
+                        checkUrl: '" . json_encode($checkUrl) . "',
                         checkImages: " . json_encode($checkImages) . ",
                     };
                     var vatNumberCheck = new VatNumberCheck(options);

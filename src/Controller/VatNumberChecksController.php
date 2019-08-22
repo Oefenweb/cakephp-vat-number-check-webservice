@@ -3,47 +3,59 @@ namespace VatNumberCheck\Controller;
 
 use Cake\Event\Event;
 use Cake\Network\Exception\InternalErrorException;
-use VatNumberCheck\Utility\VatNumberCheck;
+use VatNumberCheck\Utility\Model\VatNumberCheck;
+
 /**
  * VatNumberChecks Controller.
  *
  * @property \Cake\Controller\Component\RequestHandlerComponent $RequestHandler
- * @property \VatNumberCheck\Utility\VatNumberCheck $VatNumberCheck
+ * @property \VatNumberCheck\Utility\Model\VatNumberCheck $VatNumberCheck
  */
 class VatNumberChecksController extends AppController
 {
-/**
- * Constructor
- *
- * @param CakeRequest $request Request instance.
- * @param CakeResponse $response Response instance.
- */
-	public function __construct($request = null, $response = null) {
-		parent::__construct($request, $response);
-		$this->constructClasses();
-		if (!$this->Components->attached('RequestHandler')) {
-			$this->RequestHandler = $this->Components->load('RequestHandler');
-		}
-	}
+    /**
+     * An array of names of components to load.
+     *
+     * @var array
+     */
+    public $components = ['RequestHandler'];
 
-/**
-* Called before the controller action.
-*
-* @return void
-*/
-	public function beforeFilter() {
-		parent::beforeFilter();
-		if (in_array($this->request->action, ['check'], true)) {
-			// Disable Security component checks
-			if ($this->Components->enabled('Security')) {
-				$this->Components->disable('Security');
-			}
-			// Allow action without authentication
-			if ($this->Components->enabled('Auth')) {
-				$this->Auth->allow($this->request->action);
-			}
-		}
-	}
+    /**
+     * Initializes some handy variables.
+     *
+     * @return void
+     */
+    public function initialize()
+    {
+        parent::initialize();
+
+        $this->VatNumberCheck = new VatNumberCheck();
+    }
+
+    /**
+     * Before action logic.
+     *
+     * @param \Cake\Event\Event $event The beforeRender event.
+     * @return \Cake\Network\Response|null|void
+     * @throws \Cake\Network\Exception\BadRequestException
+     */
+    public function beforeFilter(Event $event)
+    {
+		parent::beforeFilter($event);
+        if (in_array($this->request->getParam('action'), ['check'], true)) {
+            // Disable Security, Csrf component checks
+            if ($this->components()->has('Security')) {
+                $this->components()->unload('Security');
+            }
+            if ($this->components()->has('Csrf')) {
+                $this->components()->unload('Csrf');
+            }
+            // Allow action without authentication
+            if ($this->components()->has('Auth')) {
+                $this->Auth->allow($this->request->getParam('action'));
+            }
+        }
+    }
 
 /**
 * Checks a given vat number (from POST data).
@@ -51,9 +63,10 @@ class VatNumberChecksController extends AppController
 * @return void
 */
 	public function check() {
-		$vatNumber = $this->request->data('vatNumber') ?: '';
-		$vatNumber = $this->VatNumberCheck->normalize($vatNumber);
-		$jsonData = array_merge(compact('vatNumber'), ['status' => 'failure']);
+		$vatNumber = $this->request->getData('vatNumber') ?: '';
+        $vatNumber = $this->VatNumberCheck->normalize($vatNumber);
+
+        $jsonData = array_merge(compact('vatNumber'), ['status' => 'failure']);
 		try {
 			$vatNumberValid = $this->VatNumberCheck->check($vatNumber);
 			if ($vatNumberValid) {

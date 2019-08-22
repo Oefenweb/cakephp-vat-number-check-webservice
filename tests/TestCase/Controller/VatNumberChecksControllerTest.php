@@ -3,9 +3,9 @@ namespace VatNumberCheck\Test\TestCase\Controller;
 
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
-use VatNumberCheck\Controller\VatNumberChecksController;
-use VatNumberCheck\Utility\VatNumberCheck;
-use VatNumberCheck\Test\TestApp;
+use VatNumberCheck\Utility\Model\VatNumberCheck;
+use TestApp\Application;
+
 /**
  * VatNumberChecksController Test Case.
  *
@@ -28,57 +28,57 @@ class VatNumberChecksControllerTest extends TestCase
  * @return void
  */
 	public function setUp() {
+		parent::setUp();
 		$this->useHttpServer(true);
-		$VatNumberChecks = new VatNumberCheck();
 	}
+
+/**
+ * The URL to call in the tests of `check`
+ *
+ * @var string
+ */
+const CHECK_VAT_URL = '/vat_number_check/vat_number_checks/check.json';
+
 /**
  * Tests `/vat_number_check/vat_number_checks/check.json`.
  *
  * @return void
  */
-	public function testCheck() {
-		$url = '/vat_number_check/vat_number_checks/check.json';
+	public function testCheckPost() {
 		// Post request, correct vat
 		$data = ['vatNumber' => 'NL820345672B01'];
+		$this->post(static::CHECK_VAT_URL, $data);
+		$this->assertResponseOk();
+		$this->assertContentType('application/json');
 
-		$this->get('url');
-		$actual = $this->post($url, $data);
+		$actual = $this->_response->getBody();
 		$expected = array_merge($data, ['status' => 'ok']);
-		// // Test response body
-		// $this->assertSame($expected, json_decode($actual, true));
-		// $actual = $VatNumberChecks->response->statusCode();
-		// $expected = 200;
-		// // Test response code
-		// $this->assertSame($expected, $actual);
-		// // Get request
-		// $VatNumberChecks = $this->_getMock();
-		// $data = ['vatNumber' => ''];
-		// $actual = $this->get($url, ['return' => 'contents']);
-		// $expected = array_merge($data, ['status' => 'failure']);
-		// $this->assertSame($expected, json_decode($actual, true));
-		// // Post request, incorrect vat
-		// $VatNumberChecks = $this->_getMock();
-		// $data = ['vatNumber' => 'NL820345672B02'];
-		// $actual = $this->get($url, ['return' => 'contents', 'data' => $data, 'method' => 'post']);
-		// $expected = array_merge($data, ['status' => 'failure']);
-		// $this->assertSame($expected, json_decode($actual, true));
-		// // Post request, correct vat, timeout
-		// $VatNumberChecks = $this->generate('VatNumberCheck.VatNumberChecks', [
-		// 	'models' => [
-		// 		'VatNumberCheck.VatNumberCheck' => ['check']
-		// 	]
-		// ]);
-		// $VatNumberChecks->VatNumberCheck->setDataSource('vatNumberCheckWebservice');
-		// $VatNumberChecks->VatNumberCheck->expects($this->any())
-		// 	->method('check')->will($this->throwException(new Exception()));
-		// $data = ['vatNumber' => 'NL820345672B01'];
-		// $actual = $this->get($url, ['return' => 'contents', 'data' => $data, 'method' => 'post']);
-		// $expected = array_merge($data, ['status' => 'failure']);
-		// // Test response body
-		// $this->assertSame($expected, json_decode($actual, true));
-		// $actual = $VatNumberChecks->response->statusCode();
-		// $expected = 503;
-		// // Test response code
-		// $this->assertSame($expected, $actual);
+		$this->assertSame($expected, json_decode($actual, true));
 	}
+
+	public function testCheckGet() {
+		$data = ['vatNumber' => ''];
+		$this->get(static::CHECK_VAT_URL);
+		$this->assertResponseCode(500);
+	}
+
+    /**
+     * Tests `/vat_number_check/vat_number_checks/check.json`.
+     *
+     *  Post request, incorrect VAT.
+     *
+     * @return void
+     */
+	public function testCheckIncorrectVat() {
+		$data = ['vatNumber' => 'NL820345672B02'];
+		$this->post(static::CHECK_VAT_URL, $data);
+		$this->assertResponseOk();
+		$this->assertContentType('application/json');
+
+		$actual = $this->_response->getBody();
+		$expected = array_merge($data, ['status' => 'failure']);
+		$this->assertSame($expected, json_decode($actual, true));
+	}
+
+	// TODO: add test for 503 `testCheckPostCorrectVatTimeout`
 }

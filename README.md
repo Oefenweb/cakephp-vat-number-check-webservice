@@ -9,8 +9,8 @@
 
 ## Requirements
 
-* CakePHP 2.9.0 or greater.
-* PHP 7.0.0 or greater.
+* CakePHP 3.8.0 or greater.
+* PHP 7.1.0 or greater.
 
 ## Installation
 
@@ -18,19 +18,10 @@ Clone/Copy the files in this directory into `app/Plugin/VatNumberCheck`
 
 ## Configuration
 
-Ensure the plugin is loaded in `app/config/app.php` by calling:
+Ensure the plugin is loaded in `src/Application.php` by calling:
 
 ```php
-CakePlugin::load('VatNumberCheck', ['routes' => true]);
-```
-
-Ensure to configure the following lines in `app/Config/database.php`:
-
-```php
-public $vatNumberCheckWebservice = [
-	'datasource' => 'VatNumberCheck.SoapSource',
-	'wsdl' => 'http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl'
-];
+$this->addPlugin('VatNumberCheck');
 ```
 
 ## Usage

@@ -1,5 +1,5 @@
 <?php
-namespace VatNumberCheck\Utility;
+namespace VatNumberCheck\Utility\Model;
 
 use Cake\Core\Configure;
 use Cake\Http\Exception\InternalErrorException;
@@ -26,10 +26,10 @@ protected $soapDataSource;
  */
 const CHECK_VAT_SOAP_ACTION = 'checkVat';
 
-    /**
-     * Service to check vat numbers.
-     *
-     */
+/**
+ * Service to check vat numbers.
+ *
+ */
 const CHECK_VAT_SERVICE = 'http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl';
 
 /**

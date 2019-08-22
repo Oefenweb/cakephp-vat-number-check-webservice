@@ -1,13 +1,13 @@
 <?php
-namespace VatNumberCheck\Test\TestCase\Utility;
+namespace VatNumberCheck\Test\TestCase\Utility\Model;
 use Cake\Http\Exception\InternalErrorException;
 use Cake\TestSuite\TestCase;
 use InvalidArgumentException;
-use VatNumberCheck\Utility\VatNumberCheck;
+use VatNumberCheck\Utility\Model\VatNumberCheck;
 /**
  * VatNumberCheck Test Case.
  *
- * @property \VatNumberCheck\Utility\VatNumberCheck $VatNumberCheck
+ * @property \VatNumberCheck\Utility\Model\VatNumberCheck $VatNumberCheck
  */
 class VatNumberCheckTest extends TestCase
 {
@@ -21,7 +21,6 @@ class VatNumberCheckTest extends TestCase
         parent::setUp();
 
         $this->VatNumberCheck = new VatNumberCheck();
-        // $this->VatNumberCheck->setDataSource('vatNumberCheckWebservice');
     }
 
 /**

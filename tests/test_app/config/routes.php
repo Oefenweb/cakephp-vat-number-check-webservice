@@ -1,10 +1,9 @@
 <?php
-use Cake\Core\Plugin;
 use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
-use Cake\Routing\Route\DashedRoute;
-Router::defaultRouteClass(DashedRoute::class);
-// Router::scope('/', function ($routes) {
-//     $routes->fallbacks(DashedRoute::class);
-// });
-Plugin::routes();
+use Cake\Routing\Route\InflectedRoute;
+
+Cake\Routing\Router::plugin('VatNumberCheck', ['path' => '/vat_number_check'], function (RouteBuilder $routes) {
+    $routes->addExtensions(['json']);
+    $routes->fallbacks(InflectedRoute::class);
+});
