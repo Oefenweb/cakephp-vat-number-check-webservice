@@ -31,13 +31,6 @@ class VatNumberChecksControllerTest extends TestCase
     {
         parent::setUp();
         $this->useHttpServer(true);
-        $request = new ServerRequest();
-        $response = new Response();
-         $this->controller = $this->getMockBuilder('Cake\Controller\Controller')
-            ->setConstructorArgs([$request, $response])
-            ->setMethods(null)
-            ->getMock();
-        $registry = new ComponentRegistry($this->controller);
     }
 
     /**
