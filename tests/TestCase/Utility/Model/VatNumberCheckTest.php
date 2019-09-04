@@ -3,7 +3,6 @@ namespace VatNumberCheck\Test\TestCase\Utility\Model;
 
 use Cake\Http\Exception\InternalErrorException;
 use Cake\TestSuite\TestCase;
-use InvalidArgumentException;
 use VatNumberCheck\Utility\Model\VatNumberCheck;
 
 /**

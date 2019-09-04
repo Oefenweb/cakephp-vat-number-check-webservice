@@ -1,8 +1,9 @@
 <?php
 namespace VatNumberCheck\Controller;
 
+use Cake\Controller\Controller as BaseController;
 use Cake\Event\Event;
-use Cake\Network\Exception\InternalErrorException;
+use Cake\Http\Exception\InternalErrorException;
 use VatNumberCheck\Utility\Model\VatNumberCheck;
 
 /**
@@ -11,7 +12,7 @@ use VatNumberCheck\Utility\Model\VatNumberCheck;
  * @property \Cake\Controller\Component\RequestHandlerComponent $RequestHandler
  * @property \VatNumberCheck\Utility\Model\VatNumberCheck $VatNumberCheck
  */
-class VatNumberChecksController extends AppController
+class VatNumberChecksController extends BaseController
 {
     /**
      * An array of names of components to load.
@@ -36,12 +37,12 @@ class VatNumberChecksController extends AppController
      * Before action logic.
      *
      * @param \Cake\Event\Event $event The beforeRender event.
-     * @return \Cake\Network\Response|null|void
-     * @throws \Cake\Network\Exception\BadRequestException
+     * @return \Cake\Http\Response|null
      */
     public function beforeFilter(Event $event)
     {
         parent::beforeFilter($event);
+
         if (in_array($this->request->getParam('action'), ['check'], true)) {
             // Disable Security, Csrf component checks
             if ($this->components()->has('Security')) {
@@ -73,8 +74,8 @@ class VatNumberChecksController extends AppController
             if ($vatNumberValid) {
                 $jsonData = array_merge(compact('vatNumber'), ['status' => 'ok']);
             }
-        } catch (Exception $e) {
-            $this->response->statusCode(503);
+        } catch (InternalErrorException $e) {
+            $this->response = $this->response->withStatus(503);
         }
         $this->set(compact('jsonData'));
         $this->set('_serialize', 'jsonData');

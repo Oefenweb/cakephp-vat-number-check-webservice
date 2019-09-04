@@ -3,8 +3,6 @@ namespace VatNumberCheck\Test\TestCase\Controller;
 
 use Cake\TestSuite\IntegrationTestTrait;
 use Cake\TestSuite\TestCase;
-use TestApp\Application;
-use VatNumberCheck\Utility\Model\VatNumberCheck;
 
 /**
  * VatNumberChecksController Test Case.
@@ -66,7 +64,6 @@ class VatNumberChecksControllerTest extends TestCase
      */
     public function testCheckGet()
     {
-        $data = ['vatNumber' => ''];
         $this->get(static::CHECK_VAT_URL);
         $this->assertResponseCode(500);
     }
