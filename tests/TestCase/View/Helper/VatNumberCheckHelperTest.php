@@ -24,7 +24,6 @@ class VatNumberCheckHelperTest extends TestCase
     {
         parent::setUp();
 
-        Router::reload();
         Router::connect('/:controller/:action/*');
 
         $this->View = new View(new ServerRequest());

@@ -3,7 +3,6 @@ use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Core\Plugin;
 use Cake\Datasource\ConnectionManager;
-use Cake\Filesystem\Folder;
 
 if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
@@ -11,7 +10,8 @@ if (!defined('DS')) {
 
 require_once 'vendor' . DS . 'autoload.php';
 
-define('ROOT', dirname(__DIR__) . DS);
+// Path constants to a few helpful things.
+define('ROOT', dirname(__DIR__));
 define('APP_DIR', 'TestApp');
 
 define('TMP', sys_get_temp_dir() . DS);
@@ -19,15 +19,14 @@ define('LOGS', TMP . 'logs' . DS);
 define('CACHE', TMP . 'cache' . DS);
 define('SESSIONS', TMP . 'sessions' . DS);
 
-define('CAKE_CORE_INCLUDE_PATH', ROOT);
-define('CORE_PATH', CAKE_CORE_INCLUDE_PATH . DS);
+define('CAKE_CORE_INCLUDE_PATH', ROOT . DS . 'vendor' . DS . 'cakephp' . DS . 'cakephp');
+define('CORE_PATH', ROOT . DS . 'vendor' . DS . 'cakephp' . DS . 'cakephp' . DS);
 define('CAKE', CORE_PATH . 'src' . DS);
-
-define('TESTS', ROOT . 'tests' . DS);
-define('TEST_APP', TESTS . 'test_app' . DS);
-define('APP', TEST_APP . 'TestApp' . DS);
-define('WWW_ROOT', TEST_APP . 'webroot' . DS);
-define('CONFIG', TEST_APP . 'config' . DS);
+define('TESTS', ROOT . DS . 'tests');
+define('APP', ROOT . DS . 'tests' . DS . 'test_app' . DS);
+define('WEBROOT_DIR', 'webroot');
+define('WWW_ROOT', APP . 'webroot' . DS);
+define('CONFIG', APP . 'config' . DS);
 
 //@codingStandardsIgnoreStart
 @mkdir(LOGS);
@@ -56,7 +55,7 @@ Configure::write('App', [
     'jsBaseUrl' => 'js/',
     'cssBaseUrl' => 'css/',
     'paths' => [
-        'plugins' => [TEST_APP . 'Plugin' . DS],
+        'plugins' => [APP . 'Plugin' . DS],
         'templates' => [APP . 'Template' . DS],
         'locales' => [APP . 'Locale' . DS],
     ]

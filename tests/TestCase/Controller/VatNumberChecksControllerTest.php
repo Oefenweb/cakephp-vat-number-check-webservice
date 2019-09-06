@@ -65,7 +65,7 @@ class VatNumberChecksControllerTest extends TestCase
     public function testCheckGet()
     {
         $this->get(static::CHECK_VAT_URL);
-        $this->assertResponseCode(500);
+        $this->assertResponseCode(503);
     }
 
     /**
