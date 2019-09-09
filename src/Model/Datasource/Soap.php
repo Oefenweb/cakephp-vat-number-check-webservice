@@ -2,6 +2,9 @@
 namespace VatNumberCheck\Model\Datasource;
 
 use Cake\Log\Log;
+use SoapClient;
+use SoapFault;
+use SoapHeader;
 
 /**
  * SOAP DataSource.
@@ -12,7 +15,7 @@ class Soap
     /**
      * SoapClient instance.
      *
-     * @var \SoapClient|null
+     * @var SoapClient|null
      */
     protected $client = null;
 
@@ -66,7 +69,7 @@ class Soap
     /**
      * Get SoapClient instance.
      *
-     * @return \SoapClient|null
+     * @return SoapClient|null
      */
     public function getClient()
     {
@@ -82,11 +85,11 @@ class Soap
     {
         if (!empty($this->wsdl)) {
             try {
-                $this->client = new \SoapClient($this->wsdl, $this->options);
+                $this->client = new SoapClient($this->wsdl, $this->options);
                 $this->connected = (bool)$this->client;
 
                 return $this->connected;
-            } catch (\SoapFault $e) {
+            } catch (SoapFault $e) {
                 Log::error($e);
             }
         }
@@ -132,35 +135,14 @@ class Soap
 
             foreach ($headers as $header) {
                 $this->client
-                    ->__setSoapHeaders(new \SoapHeader($header['namespace'], $header['name'], $header['data']));
+                    ->__setSoapHeaders(new SoapHeader($header['namespace'], $header['name'], $header['data']));
             }
 
             return $this->client->__soapCall($method, $data);
-        } catch (\SoapFault $e) {
+        } catch (SoapFault $e) {
             Log::error($e);
 
             return false;
         }
-    }
-
-    /**
-     * Call methods from the SoapClient class.
-     *
-     * @param string $method A method name
-     * @param array $params Method arguments
-     * @return mixed Returns the result on success, false on failure
-     */
-    public function __call(string $method, array $params = [])
-    {
-        if (is_null($this->client)) {
-            return false;
-        }
-
-        $callable = [$this->client, sprintf('__%s', $method)];
-        if (!is_callable($callable)) {
-            return false;
-        }
-
-        return call_user_func_array($callable, $params);
     }
 }
