@@ -65,7 +65,12 @@ class VatNumberChecksControllerTest extends TestCase
     public function testCheckGet()
     {
         $this->get(static::CHECK_VAT_URL);
-        $this->assertResponseCode(503);
+        $this->assertResponseOk();
+        $this->assertContentType('application/json');
+
+        $actual = $this->_response->getBody();
+        $expected = ['vatNumber' => '', 'status' => 'failure'];
+        $this->assertSame($expected, json_decode($actual, true));
     }
 
     /**

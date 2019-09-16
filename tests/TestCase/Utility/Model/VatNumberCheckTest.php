@@ -99,16 +99,8 @@ class VatNumberCheckTest extends TestCase
             ['BE0475899519', true],
             // Incorrect vat
             ['NL820345672B02', false],
+            // empty
+            ['', false]
         ];
-    }
-
-    /**
-     * Tests `check` with invalid data.
-     *
-     */
-    public function testCheckInvalid()
-    {
-        $this->expectException(InternalErrorException::class);
-        $this->VatNumberCheck->check('');
     }
 }
