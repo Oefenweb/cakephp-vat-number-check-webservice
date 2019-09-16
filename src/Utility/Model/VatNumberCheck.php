@@ -60,11 +60,8 @@ class VatNumberCheck
         }
 
         $result = $this->soapDataSource->query(static::CHECK_VAT_SOAP_ACTION, $data);
-        if (!$result) {
-            throw new InternalErrorException('Unable to check data.');
-        }
 
-        return $result->valid;
+        return $result->valid ?? false;
     }
 
     /**
