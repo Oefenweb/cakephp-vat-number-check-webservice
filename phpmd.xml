@@ -9,6 +9,7 @@
             <property name="exceptions">
                 <value>
                     \Cake\Core\Configure,
+                    \Cake\Log\Log,
                     \Cake\Routing\Router
                 </value>
             </property>
