@@ -8,7 +8,6 @@ php:
 env:
   global:
     - CAKE_VERSION=^3.8.0
-    - DB=mysql db_dsn='mysql://root@127.0.0.1/cakephp_test'
 
 services:
   - mysql
@@ -45,7 +44,6 @@ branches:
 
 before_script:
   - travis_wait ./.travis/before-script.sh
-  - mysql -u root -e 'CREATE DATABASE cakephp_test;'
 
 script:
   - ./.travis/script.sh

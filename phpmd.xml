@@ -8,7 +8,8 @@
         <properties>
             <property name="exceptions">
                 <value>
-                    \Cake\Core\Configure
+                    \Cake\Core\Configure,
+                    \Cake\Routing\Router
                 </value>
             </property>
         </properties>
