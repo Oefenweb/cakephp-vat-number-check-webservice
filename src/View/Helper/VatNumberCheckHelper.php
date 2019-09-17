@@ -70,34 +70,34 @@ class VatNumberCheckHelper extends Helper
     protected function _addJs()
     {
         $checkUrl = $this->Url->build(
-            // TODO: enable plugin name in route building
-            ['controller' => 'VatNumberChecks', 'action' => 'check', '_ext' => 'json']
-            // ['plugin' => 'VatNumberCheck', 'controller' => 'VatNumberChecks', 'action' => 'check', '_ext' => 'json']
+            ['plugin' => 'VatNumberCheck', 'controller' => 'VatNumberChecks', 'action' => 'check', '_ext' => 'json']
         );
-        $checkUrl = 'vat_number_check' . $checkUrl;
+
         $checkImages = [
             'ok' => $this->Url->build('/vat_number_check/img/ok.png'),
             'failure' => $this->Url->build('/vat_number_check/img/failure.png'),
             'serviceUnavailable' => $this->Url->build('/vat_number_check/img/service-unavailable.png'),
         ];
-        $checkImages = [];
         $script = "
             /* jshint jquery:true */
             jQuery.noConflict();
             (function($) {
                 $(function () {
                     var options = {
-                        elementSelector: '" . json_encode(sprintf('input.%s', $this->inputClass)) . "',
-                        checkUrl: '" . json_encode($checkUrl) . "',
+                        elementSelector: " . json_encode(sprintf('input.%s', $this->inputClass)) . ",
+                        checkUrl: " . json_encode($checkUrl) . ",
                         checkImages: " . json_encode($checkImages) . ",
                     };
                     var vatNumberCheck = new VatNumberCheck(options);
                 });
             })(jQuery);
         ";
+
         $this->Html->script([
-            'VatNumberCheck.jquery.min', 'VatNumberCheck.klass.min', 'VatNumberCheck.vat_number_check'
-        ], ['inline' => false, 'once' => true]);
-        $this->Html->scriptBlock($script, ['inline' => false]);
+            $this->Url->assetUrl('/vat_number_check/js/jquery.min.js'),
+            $this->Url->assetUrl('/vat_number_check/js/klass.min.js'),
+            $this->Url->assetUrl('/vat_number_check/js/vat_number_check.js')
+        ], ['once' => true, 'block' => true]);
+        $this->Html->scriptBlock($script, ['block' => true]);
     }
 }
