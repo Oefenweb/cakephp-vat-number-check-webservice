@@ -1,6 +1,3 @@
 parameters:
     autoload_files:
         - tests/bootstrap.php
-
-    ignoreErrors:
-        - '#Result of method .+QueueTaskInterface::run\(\) \(void\) is used.#'
