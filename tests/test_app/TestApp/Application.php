@@ -16,7 +16,6 @@ namespace VatNumberCheck\Test\TestApp;
 
 use Cake\Http\BaseApplication;
 use Cake\Routing\Middleware\RoutingMiddleware;
-use Cake\Routing\RouteBuilder;
 
 class Application extends BaseApplication
 {
