@@ -31,7 +31,7 @@ elif [ "${PHP_MD}" = '1' ]; then
 
     vendor/bin/phpmd . text phpmd.xml --suffixes php --exclude "${excludePathsJoined}";
 elif [ "${PHP_STAN}" = '1' ]; then
-    vendor/bin/phpstan analyse -c phpstan.neon -l 5 src/;
+    vendor/bin/phpstan analyse -c phpstan.neon -l 6 src/;
 elif [ "${PHP_PHAN}" = '1' ]; then
     vendor/bin/phan;
 elif [ "${PHP_COVERAGE}" = '1' ]; then
