@@ -90,7 +90,8 @@ class Soap
 
                 return $this->connected;
             } catch (SoapFault $e) {
-                Log::error($e);
+                Log::error($e->getMessage());
+                Log::error($e->getTraceAsString());
             }
         }
 
@@ -140,7 +141,8 @@ class Soap
 
             return $this->client->__soapCall($method, $data);
         } catch (SoapFault $e) {
-            Log::error($e);
+            Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
 
             return false;
         }
