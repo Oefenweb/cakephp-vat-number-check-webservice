@@ -39,7 +39,7 @@ class VatNumberCheck
      */
     public function normalize(string $vatNumber) : string
     {
-        return preg_replace('/[^A-Z0-9]/', '', strtoupper($vatNumber));
+        return (string)preg_replace('/[^A-Z0-9]/', '', strtoupper($vatNumber));
     }
 
     /**

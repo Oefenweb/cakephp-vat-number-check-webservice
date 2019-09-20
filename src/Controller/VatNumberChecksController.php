@@ -65,8 +65,9 @@ class VatNumberChecksController extends BaseController
      */
     public function check()
     {
+        /** @var string $vatNumber */
         $vatNumber = $this->request->getData('vatNumber') ?: '';
-        $vatNumber = $this->VatNumberCheck->normalize((string)$vatNumber);
+        $vatNumber = $this->VatNumberCheck->normalize($vatNumber);
 
         $jsonData = array_merge(compact('vatNumber'), ['status' => 'failure']);
         try {
