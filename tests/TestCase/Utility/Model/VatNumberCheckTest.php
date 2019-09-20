@@ -1,7 +1,6 @@
 <?php
 namespace VatNumberCheck\Test\TestCase\Utility\Model;
 
-use Cake\Http\Exception\InternalErrorException;
 use Cake\TestSuite\TestCase;
 use VatNumberCheck\Utility\Model\VatNumberCheck;
 

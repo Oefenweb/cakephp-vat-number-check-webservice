@@ -40,7 +40,7 @@ branches:
     - 3.x
 
 before_script:
-  - travis_wait ./.travis/before-script.sh
+  - ./.travis/before-script.sh
 
 script:
   - ./.travis/script.sh
