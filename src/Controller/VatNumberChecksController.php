@@ -67,6 +67,7 @@ class VatNumberChecksController extends BaseController
     {
         /** @var string $vatNumber */
         $vatNumber = $this->request->getData('vatNumber') ?: '';
+        /* @phan-suppress-next-line PhanPartialTypeMismatchArgument */
         $vatNumber = $this->VatNumberCheck->normalize($vatNumber);
 
         $jsonData = array_merge(compact('vatNumber'), ['status' => 'failure']);
