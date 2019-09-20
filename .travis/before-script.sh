@@ -20,7 +20,8 @@ elif [ "${PHP_MD}" = '1' ]; then
 elif [ "${PHP_STAN}" = '1' ]; then
     exit 0;
 elif [ "${PHP_PHAN}" = '1' ]; then
-    pecl install ast;
+    pecl install ast || true;
+    echo $?;
     exit 0;
 fi
 
