@@ -4,6 +4,9 @@ sudo: false
 
 php:
   - 7.1
+  - 7.2
+  - 7.3
+  - 7.4
 
 env:
   global:
@@ -11,25 +14,25 @@ env:
 
 matrix:
   include:
-    - php: 7.1
+    - php: 7.2
       env:
         - PHP_SYNTAX=1
-    - php: 7.1
+    - php: 7.2
       env:
         - PHP_CS=1
-    - php: 7.1
+    - php: 7.2
       env:
         - PHP_CPD=1
-    - php: 7.1
+    - php: 7.2
       env:
         - PHP_MD=1
-    - php: 7.1
+    - php: 7.2
       env:
         - PHP_STAN=1
-    - php: 7.1
+    - php: 7.2
       env:
         - PHP_PHAN=1
-    - php: 7.1
+    - php: 7.2
       env:
         - PHP_COVERAGE=1
 
