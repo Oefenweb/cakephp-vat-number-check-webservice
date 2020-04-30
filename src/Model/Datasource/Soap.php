@@ -9,6 +9,10 @@ use SoapHeader;
 /**
  * SOAP DataSource.
  *
+ * @method string getLastRequestHeaders()
+ * @method string getLastRequest()
+ * @method string getLastResponseHeaders()
+ * @method string getLastResponse()
  */
 class Soap
 {
@@ -29,7 +33,7 @@ class Soap
     /**
      * Options.
      *
-     * @var array
+     * @var array<string,mixed>
      */
     protected $options = [];
 
@@ -56,7 +60,7 @@ class Soap
     /**
      * Setter for the `options` property.
      *
-     * @param array $options Options
+     * @param array<string,mixed> $options Options
      * @return bool
      */
     public function setOptions(array $options = []): bool
@@ -69,9 +73,9 @@ class Soap
     /**
      * Get SoapClient instance.
      *
-     * @return SoapClient|null
+     * @return \SoapClient|null
      */
-    public function getClient()
+    public function getClient(): ?\SoapClient
     {
         return $this->client;
     }
@@ -115,8 +119,8 @@ class Soap
      * Query the server with the given method and parameters.
      *
      * @param string $method Name of method to call
-     * @param array $data A list with parameters to pass
-     * @param array $headers A list of headers to set
+     * @param array<mixed> $data A list with parameters to pass
+     * @param array<int,array> $headers A list of headers to set
      * @return mixed Returns the result on success, false on failure
      */
     public function query(string $method, array $data = [], array $headers = [])
