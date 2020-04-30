@@ -58,28 +58,28 @@ Configure::write('App', [
         'plugins' => [APP . 'Plugin' . DS],
         'templates' => [APP . 'Template' . DS],
         'locales' => [APP . 'Locale' . DS],
-    ]
+    ],
 ]);
 
 Configure::write('Session', [
-    'defaults' => 'php'
+    'defaults' => 'php',
 ]);
 
 Cache::setConfig([
     'default' => [
         'engine' => 'Cake\Cache\Engine\FileEngine',
         'prefix' => 'default_',
-        'serialize' => true
+        'serialize' => true,
     ],
     '_cake_core_' => [
         'engine' => 'Cake\Cache\Engine\FileEngine',
         'prefix' => 'cake_core_',
-        'serialize' => true
+        'serialize' => true,
     ],
     '_cake_model_' => [
         'engine' => 'Cake\Cache\Engine\FileEngine',
         'prefix' => 'cake_model_',
-        'serialize' => true
+        'serialize' => true,
     ],
 ]);
 

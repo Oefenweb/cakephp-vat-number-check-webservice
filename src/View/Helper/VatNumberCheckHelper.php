@@ -96,7 +96,7 @@ class VatNumberCheckHelper extends Helper
         $this->Html->script([
             $this->Url->assetUrl('/vat_number_check/js/jquery.min.js'),
             $this->Url->assetUrl('/vat_number_check/js/klass.min.js'),
-            $this->Url->assetUrl('/vat_number_check/js/vat_number_check.js')
+            $this->Url->assetUrl('/vat_number_check/js/vat_number_check.js'),
         ], ['once' => true, 'block' => true]);
         $this->Html->scriptBlock($script, ['block' => true]);
     }

@@ -37,7 +37,7 @@ class VatNumberCheck
      * @param string $vatNumber A VAT number
      * @return string A (normalized) VAT number
      */
-    public function normalize(string $vatNumber) : string
+    public function normalize(string $vatNumber): string
     {
         return (string)preg_replace('/[^A-Z0-9]/', '', strtoupper($vatNumber));
     }
@@ -49,7 +49,7 @@ class VatNumberCheck
      * @return bool Valid or not
      * @throws InternalErrorException when it is not possible to check the data
      */
-    public function check(string $prefixedVatNumber) : bool
+    public function check(string $prefixedVatNumber): bool
     {
         $countryCode = substr($prefixedVatNumber, 0, 2);
         $vatNumber = substr($prefixedVatNumber, 2);
@@ -77,7 +77,7 @@ class VatNumberCheck
             $this->soapDataSource = new Soap();
             $this->soapDataSource->setWsdl($wsdl);
             $this->soapDataSource->setOptions([
-                'exceptions' => true
+                'exceptions' => true,
             ]);
         }
 

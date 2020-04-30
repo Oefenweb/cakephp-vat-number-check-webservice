@@ -62,14 +62,14 @@ class VatNumberCheckHelperTest extends TestCase
         $this->assertContains('class="vat-number-check"', $actual);
 
         $options = [
-            'class' => 'foo-bar'
+            'class' => 'foo-bar',
         ];
         $actual = $this->VatNumberCheckHelper->input($fieldName, $options);
         $this->assertContains('class="foo-bar vat-number-check"', $actual);
 
         // Test input type
         $options = [
-            'type' => 'radio'
+            'type' => 'radio',
         ];
         $actual = $this->VatNumberCheckHelper->input($fieldName, $options);
         $this->assertContains('type="text"', $actual);
