@@ -55,7 +55,7 @@ class VatNumberCheckTest extends TestCase
      *
      * @return array
      */
-    public function normalizeProvider() : array
+    public function normalizeProvider(): array
     {
         return [
             // $vatNumber, $expected
@@ -89,7 +89,7 @@ class VatNumberCheckTest extends TestCase
      *
      * @return array
      */
-    public function checkProvider() : array
+    public function checkProvider(): array
     {
         return [
             // $vatNumber, $expected
@@ -99,7 +99,7 @@ class VatNumberCheckTest extends TestCase
             // Incorrect vat
             ['NL820345672B02', false],
             // empty
-            ['', false]
+            ['', false],
         ];
     }
 }
