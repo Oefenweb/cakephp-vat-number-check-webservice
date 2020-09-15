@@ -39,7 +39,8 @@ class SoapSource extends DataSource {
 		'uri' => '',
 		'login' => '',
 		'password' => '',
-		'authentication' => 'SOAP_AUTHENTICATION_BASIC'
+		'authentication' => 'SOAP_AUTHENTICATION_BASIC',
+		'connection_timeout' => null,
 	];
 
 /**
@@ -71,6 +72,10 @@ class SoapSource extends DataSource {
 
 		if (!empty($this->config['uri'])) {
 			$options['uri'] = $this->config['uri'];
+		}
+
+		if (!empty($this->config['connection_timeout'])) {
+			$options['connection_timeout'] = $this->config['connection_timeout'];
 		}
 
 		if (!empty($this->config['login'])) {
