@@ -281,28 +281,4 @@ class SoapSourceTest extends CakeTestCase {
 		$this->assertEquals($expected, $result);
 	}
 
-	public function testTimeOutOption() {
-		// Add connection_timeout to options
-		// Mock a soap source
-		// Mock a wait
-		// test the returned error code and message
-
-		$client = new SoapClient(null,
-		array(
-			'location' => "http://localhost/soapserver.php",
-			'uri'      => "http://localhost/soapserver.php",
-			'trace'    => 1
-		)
-		);
-
-		try {
-			echo $return = $client->__soapCall("add",array(41, 51));
-		} catch (SoapFault $e) {
-			echo "<pre>SoapFault: ".print_r($e, true)."</pre>\n";
-			//echo "<pre>faultcode: '".$e->faultcode."'</pre>";
-			//echo "<pre>faultstring: '".$e->getMessage()."'</pre>";
-		}
-
-	}
-
 }
