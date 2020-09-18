@@ -65,7 +65,7 @@ Configure::write('Session', [
     'defaults' => 'php',
 ]);
 
-Configure::write('VatNumberCheck' => [
+Configure::write('VatNumberCheck', [
     'options' => [
         'connection_timeout' => 5,
         'exceptions' => true,
