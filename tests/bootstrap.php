@@ -65,6 +65,13 @@ Configure::write('Session', [
     'defaults' => 'php',
 ]);
 
+Configure::write('VatNumberCheck' => [
+    'options' => [
+        'connection_timeout' => 5,
+        'exceptions' => true,
+    ],
+]);
+
 Cache::setConfig([
     'default' => [
         'engine' => 'Cake\Cache\Engine\FileEngine',
