@@ -56,7 +56,7 @@ class VatNumberCheck
         $vatNumber = substr($prefixedVatNumber, 2);
         $data = compact('countryCode', 'vatNumber');
 
-        $options = Configure::read('VatNumberCheck.options');
+        $options = Configure::read('Plugins.VatNumberCheck.options');
         if (!$this->getSoapDataSource($options)->connect()) {
             throw new InternalErrorException('Unable to connect.');
         }
@@ -72,7 +72,7 @@ class VatNumberCheck
      * @param array $options An array of options.
      * @return Soap the soap datasource
      */
-    protected function getSoapDataSource($options = []): Soap
+    protected function getSoapDataSource(array $options = []): Soap
     {
         $wsdl = static::CHECK_VAT_SERVICE;
         if (!isset($this->soapDataSource)) {
