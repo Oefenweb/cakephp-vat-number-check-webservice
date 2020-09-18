@@ -65,12 +65,13 @@ Configure::write('Session', [
     'defaults' => 'php',
 ]);
 
-Configure::write('Plugins', =>
+Configure::write('Plugins', [
     'VatNumberCheck' => [
         'options' => [
             'connection_timeout' => 5,
             'exceptions' => true,
         ],
+    ]
 ]);
 
 Cache::setConfig([
