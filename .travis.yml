@@ -1,5 +1,8 @@
 language: php
 
+services:
+  - mysql
+
 php:
   - 7.0
   - 7.1
@@ -51,7 +54,7 @@ before_script:
       protected $_identities = [
         'mysql' => [
           'datasource' => 'Database/Mysql',
-          'host' => '0.0.0.0',
+          'host' => '127.0.0.1',
           'login' => 'travis'
         ],
         'pgsql' => [
