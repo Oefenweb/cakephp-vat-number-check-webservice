@@ -69,7 +69,7 @@ class VatNumberCheck
     /**
      * Returns an initialized Soap data source.
      *
-     * @param array $options An array of options.
+     * @param array<mixed> $options An array of options.
      * @return Soap the soap datasource
      */
     protected function getSoapDataSource(array $options = []): Soap

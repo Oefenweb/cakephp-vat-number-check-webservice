@@ -71,7 +71,7 @@ Configure::write('Plugins', [
             'connection_timeout' => 5,
             'exceptions' => true,
         ],
-    ]
+    ],
 ]);
 
 Cache::setConfig([
