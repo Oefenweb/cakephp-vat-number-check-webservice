@@ -76,7 +76,7 @@ class VatNumberCheck
         $defaultOptions = [
             'exceptions' => true,
         ];
-        $options = array_merge($options, $defaultOptions);
+        $options = array_merge($defaultOptions, $options);
         $wsdl = static::CHECK_VAT_SERVICE;
         if (!isset($this->soapDataSource)) {
             $this->soapDataSource = new Soap();
