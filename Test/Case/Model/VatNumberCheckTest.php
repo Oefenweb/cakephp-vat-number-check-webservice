@@ -86,7 +86,7 @@ class VatNumberCheckTest extends CakeTestCase {
 /**
  * Tests `check`.
  *
- *  With timeout
+ *  With timeout.
  *
  * @param string $vatNumber
  * @param string $expected
