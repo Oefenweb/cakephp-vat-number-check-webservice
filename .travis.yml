@@ -97,7 +97,6 @@ before_script:
       public $vatNumberCheckWebservice = [
         'datasource' => 'VatNumberCheck.SoapSource',
         'wsdl' => 'http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl',
-        'connection_timeout' => 5,
       ];
 
       public function __construct() {

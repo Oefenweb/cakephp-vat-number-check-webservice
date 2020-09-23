@@ -59,7 +59,6 @@ class SoapSourceTest extends CakeTestCase {
 			'login' => 'username',
 			'password' => 'welcome123',
 			'authentication' => 'simple',
-			'connection_timeout' => 5,
 		];
 
 		// Get mock, without the constructor being called
