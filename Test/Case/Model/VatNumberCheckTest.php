@@ -84,23 +84,6 @@ class VatNumberCheckTest extends CakeTestCase {
 	}
 
 /**
- * Tests `check`.
- *
- *  With timeout.
- *
- * @param string $vatNumber
- * @param string $expected
- * @return void
- * @dataProvider checkProvider
- */
-	public function testCheckTimeout(string $vatNumber, bool $expected) {
-		unset($expected);
-
-		$actual = $this->VatNumberCheck->check($vatNumber);
-		$this->assertFalse($actual);
-	}
-
-/**
  * Data provider for `check`.
  *
  * @return array
