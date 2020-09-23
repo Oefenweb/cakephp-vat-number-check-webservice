@@ -29,6 +29,13 @@ class SoapSource extends DataSource {
 	public $connected = false;
 
 /**
+ * Original value of default_socket_timeout.
+ *
+ * @var int
+ */
+	public $originalDefaultSocketTimeout;
+
+/**
  * Default configuration.
  *
  * @var array
@@ -40,7 +47,6 @@ class SoapSource extends DataSource {
 		'login' => '',
 		'password' => '',
 		'authentication' => 'SOAP_AUTHENTICATION_BASIC',
-		'connection_timeout' => null,
 	];
 
 /**
@@ -52,6 +58,7 @@ class SoapSource extends DataSource {
 		parent::__construct($config);
 
 		$this->connected = $this->connect();
+		$this->originalDefaultSocketTimeout = ini_get('default_socket_timeout');
 	}
 
 /**
@@ -62,6 +69,7 @@ class SoapSource extends DataSource {
 	protected function _parseConfig() {
 		if (!class_exists('SoapClient')) {
 			$this->showError('Class SoapClient not found, please enable Soap extensions');
+
 			return false;
 		}
 
@@ -97,10 +105,14 @@ class SoapSource extends DataSource {
 
 		if (!empty($this->config['wsdl'])) {
 			try {
+				ini_set('default_socket_timeout', $this->config['default_socket_timeout'] ?? $this->originalDefaultSocketTimeout);
 				$this->client = new SoapClient($this->config['wsdl'], $options);
+
 				return (bool)$this->client;
 			} catch(SoapFault $fault) {
 				$this->showError($fault->faultstring);
+			} finally {
+				ini_set('default_socket_timeout', $this->originalDefaultSocketTimeout);
 			}
 		}
 
@@ -146,10 +158,15 @@ class SoapSource extends DataSource {
 		}
 
 		try {
+			ini_set('default_socket_timeout', $this->config['default_socket_timeout'] ?? $this->originalDefaultSocketTimeout);
+
 			return $this->client->__soapCall($method, $queryData);
 		} catch (SoapFault $fault) {
 			$this->showError($fault->faultstring);
+
 			return false;
+		} finally {
+			ini_set('default_socket_timeout', $this->originalDefaultSocketTimeout);
 		}
 	}
 
