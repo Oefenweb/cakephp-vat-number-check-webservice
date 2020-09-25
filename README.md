@@ -24,6 +24,20 @@ Ensure the plugin is loaded in `src/Application.php` by calling:
 $this->addPlugin('VatNumberCheck');
 ```
 
+Add the configuration to `scr/app.php`:
+
+```php
+'Plugins' => [
+	'VatNumberCheck' => [
+		'options' => [
+			'connection_timeout' => 2,
+		],
+		'default_socket_timeout' => 2,
+		'wsdl' => 'http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl',
+	],
+];
+```
+
 ## Usage
 
 ### Model

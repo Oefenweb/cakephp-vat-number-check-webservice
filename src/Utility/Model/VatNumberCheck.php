@@ -77,11 +77,13 @@ class VatNumberCheck
             'exceptions' => true,
         ];
         $options = array_merge($defaultOptions, $options);
-        $wsdl = static::CHECK_VAT_SERVICE;
+        $wsdl = Configure::read('Plugins.VatNumberCheck.wsdl') ?? static::CHECK_VAT_SERVICE;
+        $timeout = Configure::readOrFail('Plugins.VatNumberCheck.default_socket_timeout');
         if (!isset($this->soapDataSource)) {
             $this->soapDataSource = new Soap();
             $this->soapDataSource->setWsdl($wsdl);
             $this->soapDataSource->setOptions($options);
+            $this->soapDataSource->setDefaultSocketTimeout($timeout);
         }
 
         return $this->soapDataSource;

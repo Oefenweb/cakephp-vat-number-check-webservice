@@ -45,6 +45,20 @@ class Soap
     protected $connected = false;
 
     /**
+     * Original value of default_socket_timeout.
+     *
+     * @var int
+     */
+    protected $originalDefaultSocketTimeout;
+
+    /**
+     * Configured value of default_socket_timeout.
+     *
+     * @var int
+     */
+    protected $defaultSocketTimeout;
+
+    /**
      * Setter for the `wsdl` property.
      *
      * @param string $wsdl URI of the WSDL file or NULL if working in non-WSDL mode.
@@ -71,6 +85,19 @@ class Soap
     }
 
     /**
+     * Setter for the default socket timeout.
+     *
+     * @param int $timeout The configured default socket timeout
+     * @return bool
+     */
+    public function setDefaultSocketTimeout(int $timeout): bool
+    {
+        $this->$defaultSocketTimeout = $timeout;
+
+        return true;
+    }
+
+    /**
      * Get SoapClient instance.
      *
      * @return \SoapClient|null
@@ -89,6 +116,8 @@ class Soap
     {
         if (!empty($this->wsdl)) {
             try {
+                $defaultSocketTimeout = $this->defaultSocketTimeout ?? $this->originalDefaultSocketTimeout;
+                ini_set('default_socket_timeout', $defaultSocketTimeout);
                 $this->client = new SoapClient($this->wsdl, $this->options);
                 $this->connected = (bool)$this->client;
 
@@ -96,6 +125,8 @@ class Soap
             } catch (SoapFault $e) {
                 Log::error($e->getMessage());
                 Log::error($e->getTraceAsString());
+            } finally {
+                ini_set('default_socket_timeout', $this->originalDefaultSocketTimeout);
             }
         }
 
