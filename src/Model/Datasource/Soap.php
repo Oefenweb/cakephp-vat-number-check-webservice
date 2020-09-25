@@ -92,7 +92,7 @@ class Soap
      */
     public function setDefaultSocketTimeout(int $timeout): bool
     {
-        $this->$defaultSocketTimeout = $timeout;
+        $this->defaultSocketTimeout = $timeout;
 
         return true;
     }
