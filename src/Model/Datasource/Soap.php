@@ -59,6 +59,14 @@ class Soap
     protected $defaultSocketTimeout;
 
     /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->originalDefaultSocketTimeout = ini_get('default_socket_timeout');
+    }
+
+    /**
      * Setter for the `wsdl` property.
      *
      * @param string $wsdl URI of the WSDL file or NULL if working in non-WSDL mode.
@@ -117,7 +125,7 @@ class Soap
         if (!empty($this->wsdl)) {
             try {
                 $defaultSocketTimeout = $this->defaultSocketTimeout ?? $this->originalDefaultSocketTimeout;
-                ini_set('default_socket_timeout', $defaultSocketTimeout);
+                ini_set('default_socket_timeout', strval($defaultSocketTimeout));
                 $this->client = new SoapClient($this->wsdl, $this->options);
                 $this->connected = (bool)$this->client;
 
