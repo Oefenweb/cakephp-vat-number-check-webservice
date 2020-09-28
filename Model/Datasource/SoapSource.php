@@ -58,8 +58,7 @@ class SoapSource extends DataSource {
 		parent::__construct($config);
 
 		$this->connected = $this->connect();
-		$this->originalDefaultSocketTimeout = ini_get('default_socket_timeout');
-		var_dump($this->originalDefaultSocketTimeout);
+		$this->originalDefaultSocketTimeout = ini_get('default_socket_timeout') ?: 60;
 	}
 
 /**
