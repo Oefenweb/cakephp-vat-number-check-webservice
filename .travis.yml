@@ -46,7 +46,7 @@ before_script:
   - git clone -b master https://github.com/Oefenweb/travis --depth 1 ../travis
   - travis_wait ../travis/before_script.sh
 
-  - phpenv config-add myconfig.ini
+  - phpenv config-add travis.ini
   - mkdir -p ../cakephp/app/Config
   - |
     cat <<'  EOF' > ../cakephp/app/Config/database.php
