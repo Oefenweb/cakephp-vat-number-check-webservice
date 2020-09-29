@@ -31,7 +31,8 @@ class VatNumberCheck
      *
      * @throws InternalErrorException
      */
-    public function __construct() {
+    public function __construct()
+    {
         $config = Configure::readOrFail('Plugins.VatNumberCheck');
         if (!$this->getSoapDataSource($config)->connect()) {
             throw new InternalErrorException('Connection to web service could not be established.');
