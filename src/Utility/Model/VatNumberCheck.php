@@ -53,7 +53,6 @@ class VatNumberCheck
      *
      * @param string $prefixedVatNumber A VAT number
      * @return bool Valid or not
-     * @throws InternalErrorException when it is not possible to check the data
      */
     public function check(string $prefixedVatNumber): bool
     {
