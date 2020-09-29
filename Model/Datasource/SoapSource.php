@@ -29,11 +29,18 @@ class SoapSource extends DataSource {
 	public $connected = false;
 
 /**
+ * Configured value of default_socket_timeout.
+ *
+ * @var string
+ */
+	protected $_defaultSocketTimeout;
+
+/**
  * Original value of default_socket_timeout.
  *
- * @var int
+ * @var string
  */
-	public $originalDefaultSocketTimeout;
+	protected $_originalDefaultSocketTimeout;
 
 /**
  * Default configuration.
@@ -58,7 +65,9 @@ class SoapSource extends DataSource {
 		parent::__construct($config);
 
 		$this->connected = $this->connect();
-		$this->originalDefaultSocketTimeout = ini_get('default_socket_timeout');
+
+		$this->_originalDefaultSocketTimeout = strval(ini_get('default_socket_timeout'));
+		$this->_defaultSocketTimeout = strval($this->config['default_socket_timeout'] ?? $this->_originalDefaultSocketTimeout);
 	}
 
 /**
@@ -105,14 +114,14 @@ class SoapSource extends DataSource {
 
 		if (!empty($this->config['wsdl'])) {
 			try {
-				ini_set('default_socket_timeout', $this->config['default_socket_timeout'] ?? $this->originalDefaultSocketTimeout);
+				ini_set('default_socket_timeout', $this->_defaultSocketTimeout);
 				$this->client = new SoapClient($this->config['wsdl'], $options);
 
 				return (bool)$this->client;
 			} catch(SoapFault $fault) {
 				$this->showError($fault->faultstring);
 			} finally {
-				ini_set('default_socket_timeout', $this->originalDefaultSocketTimeout);
+				ini_set('default_socket_timeout', $this->_originalDefaultSocketTimeout);
 			}
 		}
 
@@ -158,16 +167,16 @@ class SoapSource extends DataSource {
 		}
 
 		try {
-			ini_set('default_socket_timeout', $this->config['default_socket_timeout'] ?? $this->originalDefaultSocketTimeout);
+			ini_set('default_socket_timeout', $this->_defaultSocketTimeout);
 
 			return $this->client->__soapCall($method, $queryData);
 		} catch (SoapFault $fault) {
 			$this->showError($fault->faultstring);
-
-			return false;
 		} finally {
-			ini_set('default_socket_timeout', $this->originalDefaultSocketTimeout);
+			ini_set('default_socket_timeout', $this->_originalDefaultSocketTimeout);
 		}
+
+		return false;
 	}
 
 /**
