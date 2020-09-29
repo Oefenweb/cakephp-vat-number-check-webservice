@@ -21,7 +21,7 @@ class VatNumberCheckHelper extends Helper
     public $helpers = ['Html', 'Form', 'Url'];
 
     /**
-     * The number of times this helper is called
+     * The number of times this helper is called.
      *
      * @var int
      */

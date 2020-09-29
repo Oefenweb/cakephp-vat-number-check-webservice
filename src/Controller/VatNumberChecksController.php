@@ -36,7 +36,7 @@ class VatNumberChecksController extends BaseController
     /**
      * Before action logic.
      *
-     * @param \Cake\Event\Event $event The beforeRender event.
+     * @param \Cake\Event\Event $event The beforeRender event
      * @return \Cake\Http\Response|void
      */
     public function beforeFilter(Event $event)

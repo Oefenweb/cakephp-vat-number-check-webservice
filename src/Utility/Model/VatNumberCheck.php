@@ -27,6 +27,18 @@ class VatNumberCheck
     const CHECK_VAT_SOAP_ACTION = 'checkVat';
 
     /**
+     * Initializes the SOAP connection.
+     *
+     * @throws InternalErrorException
+     */
+    public function __construct() {
+        $config = Configure::readOrFail('Plugins.VatNumberCheck');
+        if (!$this->getSoapDataSource($config)->connect()) {
+            throw new InternalErrorException('Connection to web service could not be established.');
+        }
+    }
+
+    /**
      * Normalizes a VAT number.
      *
      * @param string $vatNumber A VAT number
@@ -50,11 +62,6 @@ class VatNumberCheck
         $vatNumber = substr($prefixedVatNumber, 2);
         $data = compact('countryCode', 'vatNumber');
 
-        $config = Configure::readOrFail('Plugins.VatNumberCheck');
-        if (!$this->getSoapDataSource($config)->connect()) {
-            throw new InternalErrorException('Connection to web service could not be established.');
-        }
-
         $result = $this->soapDataSource->query(static::CHECK_VAT_SOAP_ACTION, $data);
 
         return $result->valid ?? false;
@@ -63,8 +70,8 @@ class VatNumberCheck
     /**
      * Returns an initialized Soap data source.
      *
-     * @param array<string, mixed> $config An array of configuration.
-     * @return Soap the soap datasource
+     * @param array<string, mixed> $config An array of configuration
+     * @return Soap The soap datasource
      */
     protected function getSoapDataSource(array $config = []): Soap
     {
