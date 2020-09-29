@@ -58,14 +58,12 @@ class Soap
      */
     protected $client = null;
 
-
     /**
      * Connection status.
      *
      * @var bool
      */
     protected $connected = false;
-
 
     /**
      * Service to check vat numbers.
@@ -75,6 +73,8 @@ class Soap
 
     /**
      * Constructor.
+     *
+     * @param array<string,mixed> $config Configuration.
      */
     public function __construct(array $config = [])
     {
