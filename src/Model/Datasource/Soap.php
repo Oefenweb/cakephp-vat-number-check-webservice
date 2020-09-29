@@ -78,7 +78,7 @@ class Soap
      */
     public function __construct(array $config = [])
     {
-        $this->originalDefaultSocketTimeout = ini_get('default_socket_timeout');
+        $this->originalDefaultSocketTimeout = strval(ini_get('default_socket_timeout'));
 
         $this->config = $config;
 
