@@ -6,7 +6,7 @@ use Cake\Http\Exception\InternalErrorException;
 use VatNumberCheck\Model\Datasource\Soap;
 
 /**
- * VatNumberCheck Utility.
+ * VatNumberCheck Model.
  *
  */
 class VatNumberCheck
@@ -25,12 +25,6 @@ class VatNumberCheck
      * @var string
      */
     const CHECK_VAT_SOAP_ACTION = 'checkVat';
-
-    /**
-     * Service to check vat numbers.
-     *
-     */
-    const CHECK_VAT_SERVICE = 'http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl';
 
     /**
      * Normalizes a VAT number.
@@ -55,9 +49,10 @@ class VatNumberCheck
         $countryCode = substr($prefixedVatNumber, 0, 2);
         $vatNumber = substr($prefixedVatNumber, 2);
         $data = compact('countryCode', 'vatNumber');
-        $options = Configure::readOrFail('Plugins.VatNumberCheck.options');
-        if (!$this->getSoapDataSource($options)->connect()) {
-            throw new InternalErrorException('Unable to connect.');
+
+        $config = Configure::readOrFail('Plugins.VatNumberCheck');
+        if (!$this->getSoapDataSource($config)->connect()) {
+            throw new InternalErrorException('Connection to web service could not be established.');
         }
 
         $result = $this->soapDataSource->query(static::CHECK_VAT_SOAP_ACTION, $data);
@@ -68,22 +63,13 @@ class VatNumberCheck
     /**
      * Returns an initialized Soap data source.
      *
-     * @param array<string, mixed> $options An array of options.
+     * @param array<string, mixed> $config An array of configuration.
      * @return Soap the soap datasource
      */
-    protected function getSoapDataSource(array $options = []): Soap
+    protected function getSoapDataSource(array $config = []): Soap
     {
-        $defaultOptions = [
-            'exceptions' => true,
-        ];
-        $options = array_merge($defaultOptions, $options);
-        $wsdl = Configure::read('Plugins.VatNumberCheck.wsdl') ?? static::CHECK_VAT_SERVICE;
-        $timeout = Configure::readOrFail('Plugins.VatNumberCheck.default_socket_timeout');
         if (!isset($this->soapDataSource)) {
-            $this->soapDataSource = new Soap();
-            $this->soapDataSource->setWsdl($wsdl);
-            $this->soapDataSource->setOptions($options);
-            $this->soapDataSource->setDefaultSocketTimeout($timeout);
+            $this->soapDataSource = new Soap($config);
         }
 
         return $this->soapDataSource;
