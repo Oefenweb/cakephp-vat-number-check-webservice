@@ -90,6 +90,9 @@ class Soap
         $this->wsdl = $config['wsdl'] ?? static::CHECK_VAT_SERVICE;
 
         $this->defaultSocketTimeout = strval($config['default_socket_timeout'] ?? $this->originalDefaultSocketTimeout);
+
+        debug($this->originalDefaultSocketTimeout);
+        debug($this->defaultSocketTimeout);
     }
 
     /**
