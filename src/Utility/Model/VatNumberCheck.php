@@ -2,7 +2,6 @@
 namespace VatNumberCheck\Utility\Model;
 
 use Cake\Core\Configure;
-use Cake\Http\Exception\InternalErrorException;
 use VatNumberCheck\Model\Datasource\Soap;
 
 /**
@@ -29,13 +28,12 @@ class VatNumberCheck
     /**
      * Initializes the SOAP connection.
      *
-     * @throws InternalErrorException
      */
     public function __construct()
     {
         $config = Configure::readOrFail('Plugins.VatNumberCheck');
-        if (!$this->getSoapDataSource($config)->connect()) {
-            throw new InternalErrorException('Connection to web service could not be established.');
+        if (!isset($this->soapDataSource)) {
+            $this->soapDataSource = new Soap($config);
         }
     }
 
@@ -66,20 +64,5 @@ class VatNumberCheck
         $result = $this->soapDataSource->query(static::CHECK_VAT_SOAP_ACTION, $data);
 
         return $result->valid ?? false;
-    }
-
-    /**
-     * Returns an initialized Soap data source.
-     *
-     * @param array<string, mixed> $config An array of configuration
-     * @return Soap The soap datasource
-     */
-    protected function getSoapDataSource(array $config = []): Soap
-    {
-        if (!isset($this->soapDataSource)) {
-            $this->soapDataSource = new Soap($config);
-        }
-
-        return $this->soapDataSource;
     }
 }

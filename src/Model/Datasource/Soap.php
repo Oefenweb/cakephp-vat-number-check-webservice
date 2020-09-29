@@ -74,7 +74,7 @@ class Soap
     /**
      * Constructor.
      *
-     * @param array<string,mixed> $config Configuration.
+     * @param array<string,mixed> $config Configuration
      */
     public function __construct(array $config = [])
     {
@@ -90,6 +90,8 @@ class Soap
         $this->wsdl = $config['wsdl'] ?? static::CHECK_VAT_SERVICE;
 
         $this->defaultSocketTimeout = strval($config['default_socket_timeout'] ?? $this->originalDefaultSocketTimeout);
+
+        $this->connected = $this->connect();
     }
 
     /**
@@ -97,7 +99,7 @@ class Soap
      *
      * @return bool True on success, false on failure
      */
-    public function connect(): bool
+    protected function connect(): bool
     {
         if (!empty($this->wsdl)) {
             try {
@@ -116,19 +118,6 @@ class Soap
         }
 
         return false;
-    }
-
-    /**
-     * Disconnects to the server.
-     *
-     * @return bool True
-     */
-    public function close(): bool
-    {
-        $this->client = null;
-        $this->connected = false;
-
-        return true;
     }
 
     /**

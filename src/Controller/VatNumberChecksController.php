@@ -3,8 +3,8 @@ namespace VatNumberCheck\Controller;
 
 use Cake\Controller\Controller as BaseController;
 use Cake\Event\Event;
-use Cake\Http\Exception\InternalErrorException;
 use Cake\Log\Log;
+use Exception;
 use VatNumberCheck\Utility\Model\VatNumberCheck;
 
 /**
@@ -77,7 +77,7 @@ class VatNumberChecksController extends BaseController
             if ($vatNumberValid) {
                 $jsonData = array_merge(compact('vatNumber'), ['status' => 'ok']);
             }
-        } catch (InternalErrorException $e) {
+        } catch (Exception $e) {
             $this->response = $this->response->withStatus(503);
 
             Log::error($e->getMessage());
