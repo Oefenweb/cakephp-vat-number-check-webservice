@@ -168,5 +168,7 @@ class Soap
         } finally {
             ini_set('default_socket_timeout', $this->originalDefaultSocketTimeout);
         }
+
+        return false;
     }
 }
