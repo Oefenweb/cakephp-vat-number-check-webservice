@@ -64,10 +64,10 @@ class SoapSource extends DataSource {
 	public function __construct($config = []) {
 		parent::__construct($config);
 
-		$this->connected = $this->connect();
-
 		$this->_originalDefaultSocketTimeout = strval(ini_get('default_socket_timeout'));
 		$this->_defaultSocketTimeout = strval($this->config['default_socket_timeout'] ?? $this->_originalDefaultSocketTimeout);
+
+		$this->connected = $this->connect();
 	}
 
 /**
