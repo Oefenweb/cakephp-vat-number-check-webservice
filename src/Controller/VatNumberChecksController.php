@@ -4,6 +4,7 @@ namespace VatNumberCheck\Controller;
 use Cake\Controller\Controller as BaseController;
 use Cake\Event\Event;
 use Cake\Http\Exception\InternalErrorException;
+use Cake\Log\Log;
 use VatNumberCheck\Utility\Model\VatNumberCheck;
 
 /**
@@ -78,6 +79,9 @@ class VatNumberChecksController extends BaseController
             }
         } catch (InternalErrorException $e) {
             $this->response = $this->response->withStatus(503);
+
+            Log::error($e->getMessage());
+            Log::error($e->getTraceAsString());
         }
         $this->set(compact('jsonData'));
         $this->set('_serialize', 'jsonData');
