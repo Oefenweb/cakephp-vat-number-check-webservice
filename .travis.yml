@@ -44,6 +44,8 @@ branches:
 
 before_script:
   - ./.travis/before-script.sh
+  - |
+    echo 'default_socket_timeout = 60' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 
 script:
   - ./.travis/script.sh

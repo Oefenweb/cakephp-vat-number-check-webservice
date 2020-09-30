@@ -17,18 +17,11 @@ use SoapHeader;
 class Soap
 {
     /**
-     * SoapClient instance.
+     * Configuration.
      *
-     * @var SoapClient|null
+     * @var array<string,mixed>
      */
-    protected $client = null;
-
-    /**
-     * URI of the WSDL file or NULL if working in non-WSDL mode.
-     *
-     * @var null|string
-     */
-    protected $wsdl = null;
+    protected $config = [];
 
     /**
      * Options.
@@ -38,6 +31,34 @@ class Soap
     protected $options = [];
 
     /**
+     * URI of the WSDL file or NULL if working in non-WSDL mode.
+     *
+     * @var null|string
+     */
+    protected $wsdl = null;
+
+    /**
+     * Configured value of default_socket_timeout.
+     *
+     * @var string
+     */
+    protected $defaultSocketTimeout;
+
+    /**
+     * Original value of default_socket_timeout.
+     *
+     * @var string
+     */
+    protected $originalDefaultSocketTimeout;
+
+    /**
+     * SoapClient instance.
+     *
+     * @var SoapClient|null
+     */
+    protected $client = null;
+
+    /**
      * Connection status.
      *
      * @var bool
@@ -45,39 +66,32 @@ class Soap
     protected $connected = false;
 
     /**
-     * Setter for the `wsdl` property.
+     * Service to check vat numbers.
      *
-     * @param string $wsdl URI of the WSDL file or NULL if working in non-WSDL mode.
-     * @return bool
      */
-    public function setWsdl(string $wsdl): bool
-    {
-        $this->wsdl = $wsdl;
-
-        return true;
-    }
+    const CHECK_VAT_SERVICE = 'http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl';
 
     /**
-     * Setter for the `options` property.
+     * Constructor.
      *
-     * @param array<string,mixed> $options Options
-     * @return bool
+     * @param array<string,mixed> $config Configuration
      */
-    public function setOptions(array $options = []): bool
+    public function __construct(array $config = [])
     {
-        $this->options = $options;
+        $this->originalDefaultSocketTimeout = strval(ini_get('default_socket_timeout'));
 
-        return true;
-    }
+        $this->config = $config;
 
-    /**
-     * Get SoapClient instance.
-     *
-     * @return \SoapClient|null
-     */
-    public function getClient(): ?\SoapClient
-    {
-        return $this->client;
+        $defaultOptions = [
+            'exceptions' => true,
+        ];
+        $this->options = array_merge($defaultOptions, $config['options'] ?? []);
+
+        $this->wsdl = $config['wsdl'] ?? static::CHECK_VAT_SERVICE;
+
+        $this->defaultSocketTimeout = strval($config['default_socket_timeout'] ?? $this->originalDefaultSocketTimeout);
+
+        $this->connected = $this->connect();
     }
 
     /**
@@ -85,10 +99,12 @@ class Soap
      *
      * @return bool True on success, false on failure
      */
-    public function connect(): bool
+    protected function connect(): bool
     {
         if (!empty($this->wsdl)) {
             try {
+                ini_set('default_socket_timeout', $this->defaultSocketTimeout);
+
                 $this->client = new SoapClient($this->wsdl, $this->options);
                 $this->connected = (bool)$this->client;
 
@@ -96,23 +112,12 @@ class Soap
             } catch (SoapFault $e) {
                 Log::error($e->getMessage());
                 Log::error($e->getTraceAsString());
+            } finally {
+                ini_set('default_socket_timeout', $this->originalDefaultSocketTimeout);
             }
         }
 
         return false;
-    }
-
-    /**
-     * Disconnects to the server.
-     *
-     * @return bool True
-     */
-    public function close(): bool
-    {
-        $this->client = null;
-        $this->connected = false;
-
-        return true;
     }
 
     /**
@@ -143,12 +148,16 @@ class Soap
                     ->__setSoapHeaders(new SoapHeader($header['namespace'], $header['name'], $header['data']));
             }
 
+            ini_set('default_socket_timeout', $this->defaultSocketTimeout);
+
             return $this->client->__soapCall($method, $data);
         } catch (SoapFault $e) {
             Log::error($e->getMessage());
             Log::error($e->getTraceAsString());
-
-            return false;
+        } finally {
+            ini_set('default_socket_timeout', $this->originalDefaultSocketTimeout);
         }
+
+        return false;
     }
 }

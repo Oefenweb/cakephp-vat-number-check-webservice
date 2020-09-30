@@ -1,11 +1,11 @@
 <?php
 namespace VatNumberCheck\Utility\Model;
 
-use Cake\Http\Exception\InternalErrorException;
+use Cake\Core\Configure;
 use VatNumberCheck\Model\Datasource\Soap;
 
 /**
- * VatNumberCheck Utility.
+ * VatNumberCheck Model.
  *
  */
 class VatNumberCheck
@@ -26,10 +26,16 @@ class VatNumberCheck
     const CHECK_VAT_SOAP_ACTION = 'checkVat';
 
     /**
-     * Service to check vat numbers.
+     * Initializes the SOAP connection.
      *
      */
-    const CHECK_VAT_SERVICE = 'http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl';
+    public function __construct()
+    {
+        $config = Configure::readOrFail('Plugins.VatNumberCheck');
+        if (!isset($this->soapDataSource)) {
+            $this->soapDataSource = new Soap($config);
+        }
+    }
 
     /**
      * Normalizes a VAT number.
@@ -47,7 +53,6 @@ class VatNumberCheck
      *
      * @param string $prefixedVatNumber A VAT number
      * @return bool Valid or not
-     * @throws InternalErrorException when it is not possible to check the data
      */
     public function check(string $prefixedVatNumber): bool
     {
@@ -55,32 +60,8 @@ class VatNumberCheck
         $vatNumber = substr($prefixedVatNumber, 2);
         $data = compact('countryCode', 'vatNumber');
 
-        if (!$this->getSoapDataSource()->connect()) {
-            throw new InternalErrorException('Unable to connect.');
-        }
-
         $result = $this->soapDataSource->query(static::CHECK_VAT_SOAP_ACTION, $data);
 
         return $result->valid ?? false;
-    }
-
-    /**
-     * Returns an initialized Soap data source.
-     *
-     * @return Soap the soap datasource
-     */
-    protected function getSoapDataSource(): Soap
-    {
-        $wsdl = static::CHECK_VAT_SERVICE;
-
-        if (!isset($this->soapDataSource)) {
-            $this->soapDataSource = new Soap();
-            $this->soapDataSource->setWsdl($wsdl);
-            $this->soapDataSource->setOptions([
-                'exceptions' => true,
-            ]);
-        }
-
-        return $this->soapDataSource;
     }
 }
