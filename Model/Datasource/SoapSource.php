@@ -29,6 +29,20 @@ class SoapSource extends DataSource {
 	public $connected = false;
 
 /**
+ * Configured value of default_socket_timeout.
+ *
+ * @var string
+ */
+	protected $_defaultSocketTimeout;
+
+/**
+ * Original value of default_socket_timeout.
+ *
+ * @var string
+ */
+	protected $_originalDefaultSocketTimeout;
+
+/**
  * Default configuration.
  *
  * @var array
@@ -39,7 +53,7 @@ class SoapSource extends DataSource {
 		'uri' => '',
 		'login' => '',
 		'password' => '',
-		'authentication' => 'SOAP_AUTHENTICATION_BASIC'
+		'authentication' => 'SOAP_AUTHENTICATION_BASIC',
 	];
 
 /**
@@ -49,6 +63,9 @@ class SoapSource extends DataSource {
  */
 	public function __construct($config = []) {
 		parent::__construct($config);
+
+		$this->_originalDefaultSocketTimeout = strval(ini_get('default_socket_timeout'));
+		$this->_defaultSocketTimeout = strval($this->config['default_socket_timeout'] ?? $this->_originalDefaultSocketTimeout);
 
 		$this->connected = $this->connect();
 	}
@@ -61,6 +78,7 @@ class SoapSource extends DataSource {
 	protected function _parseConfig() {
 		if (!class_exists('SoapClient')) {
 			$this->showError('Class SoapClient not found, please enable Soap extensions');
+
 			return false;
 		}
 
@@ -71,6 +89,10 @@ class SoapSource extends DataSource {
 
 		if (!empty($this->config['uri'])) {
 			$options['uri'] = $this->config['uri'];
+		}
+
+		if (!empty($this->config['connection_timeout'])) {
+			$options['connection_timeout'] = $this->config['connection_timeout'];
 		}
 
 		if (!empty($this->config['login'])) {
@@ -92,10 +114,14 @@ class SoapSource extends DataSource {
 
 		if (!empty($this->config['wsdl'])) {
 			try {
+				ini_set('default_socket_timeout', $this->_defaultSocketTimeout);
 				$this->client = new SoapClient($this->config['wsdl'], $options);
+
 				return (bool)$this->client;
 			} catch(SoapFault $fault) {
 				$this->showError($fault->faultstring);
+			} finally {
+				ini_set('default_socket_timeout', $this->_originalDefaultSocketTimeout);
 			}
 		}
 
@@ -141,11 +167,16 @@ class SoapSource extends DataSource {
 		}
 
 		try {
+			ini_set('default_socket_timeout', $this->_defaultSocketTimeout);
+
 			return $this->client->__soapCall($method, $queryData);
 		} catch (SoapFault $fault) {
 			$this->showError($fault->faultstring);
-			return false;
+		} finally {
+			ini_set('default_socket_timeout', $this->_originalDefaultSocketTimeout);
 		}
+
+		return false;
 	}
 
 /**

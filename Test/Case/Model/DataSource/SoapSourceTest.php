@@ -58,7 +58,7 @@ class SoapSourceTest extends CakeTestCase {
 			'uri' => 'http://www.example.org/uri',
 			'login' => 'username',
 			'password' => 'welcome123',
-			'authentication' => 'simple'
+			'authentication' => 'simple',
 		];
 
 		// Get mock, without the constructor being called

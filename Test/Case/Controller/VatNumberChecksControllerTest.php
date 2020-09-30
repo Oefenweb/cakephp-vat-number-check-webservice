@@ -62,8 +62,19 @@ class VatNumberChecksControllerTest extends ControllerTestCase {
 		$expected = array_merge($data, ['status' => 'failure']);
 
 		$this->assertSame($expected, json_decode($actual, true));
+	}
 
-		// Post request, correct vat, timeout
+/**
+ * Tests `/vat_number_check/vat_number_checks/check.json`.
+ *
+ *  Post request, correct vat, timeout
+ *
+ * @return void
+ * @requires PHPUnit 5.7
+ * @todo This should ever happen, right?
+ */
+	public function testCheck503() {
+		$url = '/vat_number_check/vat_number_checks/check.json';
 
 		$VatNumberChecks = $this->generate('VatNumberCheck.VatNumberChecks', [
 			'models' => [

@@ -43,7 +43,6 @@ class VatNumberCheck extends VatNumberCheckAppModel {
  *
  * @param string $vatNumber A VAT number
  * @return bool Valid or not
- * @throws InternalErrorException
  */
 	public function check(string $vatNumber) : bool {
 		$memberStateCode = substr($vatNumber, 0, 2);
