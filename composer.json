@@ -16,8 +16,7 @@
     "require": {
         "php": ">=7.1",
         "cakephp/cakephp": "^3.8",
-        "ext-soap": "*",
-        "composer/installers": "~1.0"
+        "ext-soap": "*"
     },
     "require-dev": {
         "oefenweb/cakephp-codesniffer": "^3.0.0",
