@@ -35,7 +35,7 @@ Add the configuration to `scr/app.php`:
 			'connection_timeout' => 2,
 		],
 		'default_socket_timeout' => 2,
-		'wsdl' => 'http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl',
+		'wsdl' => 'https://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl',
 	],
 ];
 ```
