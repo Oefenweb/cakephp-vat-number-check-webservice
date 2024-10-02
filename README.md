@@ -31,7 +31,7 @@ Ensure to configure the following lines in `app/Config/database.php`:
 ```php
 public $vatNumberCheckWebservice = [
 	'datasource' => 'VatNumberCheck.SoapSource',
-	'wsdl' => 'http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl',
+	'wsdl' => 'https://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl',
 	'default_socket_timeout' => 2,
 	'connection_timeout' => 2,
 ];
