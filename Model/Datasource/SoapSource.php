@@ -101,6 +101,19 @@ class SoapSource extends DataSource {
 			$options['authentication'] = $this->config['authentication'];
 		}
 
+		if (!empty($this->config['compression'])) {
+			// SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP | SOAP_COMPRESSION_DEFLATE
+			$options['compression'] = $this->config['compression'];
+		}
+		if (!empty($this->config['cache_wsdl'])) {
+			// WSDL_CACHE_NONE
+			$options['cache_wsdl'] = $this->config['cache_wsdl'];
+		}
+		if (!empty($this->config['keep_alive'])) {
+			// false
+			$options['keep_alive'] = $this->config['keep_alive'];
+		}
+
 		return $options;
 	}
 
