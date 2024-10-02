@@ -69,7 +69,7 @@ class Soap
      * Service to check vat numbers.
      *
      */
-    const CHECK_VAT_SERVICE = 'http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl';
+    const CHECK_VAT_SERVICE = 'https://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl';
 
     /**
      * Constructor.
