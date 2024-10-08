@@ -7,6 +7,8 @@
 [![Code Climate](https://codeclimate.com/github/Oefenweb/cakephp-vat-number-check-webservice/badges/gpa.svg)](https://codeclimate.com/github/Oefenweb/cakephp-vat-number-check-webservice)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Oefenweb/cakephp-vat-number-check-webservice/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Oefenweb/cakephp-vat-number-check-webservice/?branch=master)
 
+[Technical information](https://ec.europa.eu/taxation_customs/vies/#/technical-information)
+
 ## Requirements
 
 * CakePHP 3.8.0 or greater.
@@ -33,7 +35,7 @@ Add the configuration to `scr/app.php`:
 			'connection_timeout' => 2,
 		],
 		'default_socket_timeout' => 2,
-		'wsdl' => 'http://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl',
+		'wsdl' => 'https://ec.europa.eu/taxation_customs/vies/checkVatService.wsdl',
 	],
 ];
 ```
